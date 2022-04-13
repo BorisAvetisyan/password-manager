@@ -70,16 +70,12 @@ ipcMain.on(NEW_WEBSITE, (event, data) => {
 
 ipcMain.on(NEW_MASTER_PASSWORD, (event, newPassword) => {
     const inputPath = 'src/database/master.txt';
-    // if(!fs.existsSync(inputPath)) {
-    //     fs.writeFileSync(inputPath, '')
-    // }
     // TODO encrypt master password
     fs.writeFileSync(inputPath, newPassword);
     mainWindow.webContents.send(NEW_MASTER_PASSWORD_SAVED)
 })
 
 ipcMain.on(CHECK_MASTER_PASSWORD, (event, data) => {
-    console.log("master password is, ", data);
     // todo encrypt master password to check
     const inputPath = 'src/database/master.txt';
     const masterPassword = fs.readFileSync(inputPath, "utf-8");

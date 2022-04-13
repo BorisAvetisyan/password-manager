@@ -30,8 +30,6 @@ body {
   }
 }
 
-
-
 .menu-blocks-container {
   position: absolute;
   bottom: 0;
@@ -87,6 +85,28 @@ body {
       padding: 0;
       list-style-type: none;
     }
+
+    .info-header {
+
+      .info-url {
+        color: #457B9D;
+        font-size: 20px;
+        margin-left: 12px;
+      }
+    }
+
+    .info-field {
+      .info-field-title {
+        font-weight: 700;
+        font-size: 10px;
+        color: #000000;
+      }
+      .show-password-icon, .edit-password-icon {
+        cursor: pointer;
+        margin-left: 24px;
+      }
+    }
+
   }
 }
 
@@ -98,4 +118,10 @@ body {
 // Global
 .vertical-align-middle {
   vertical-align: middle;
+}
+
+br {
+  content: " ";
+  margin: -8px 0px;
+  display: block;
 }

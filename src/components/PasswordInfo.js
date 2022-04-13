@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
-import {DefaultWebsiteIcon} from "../media/SVG";
+import {DefaultWebsiteIcon, EditIcon, ShowPasswordIcon} from "../media/SVG";
 import moment from "moment";
 import MasterPasswordModal from "./MasterPasswordModal";
 
@@ -29,34 +29,44 @@ function PasswordInfo() {
         <div className="info-block">
             {singleItem &&
                 <div className="info-row">
-                <span className="website-icon">
-                {DefaultWebsiteIcon({width: 50, height: 50})}
-            </span>
+                    <div className="info-header">
+                        <span className="website-icon">
+                            {DefaultWebsiteIcon({width: 50, height: 50})}
+                        </span>
+                        <span className="info-url">{singleItem.url}</span>
+                    </div>
                     <div>
                         <ul className="info-ul mt-3">
-                            <li>
-                                <b>Website</b> {singleItem.name}
+                            <li className="info-field">
+                                <span className="info-field-title">name</span> {singleItem.name}
                             </li>
-                            <li>
-                                <b>URL</b> {singleItem.url}
-                            </li>
-                            <li>
-                                <b>Password</b> {showPassword ? singleItem.password : '**********'}
-                                { !showPassword ?
-                                    <button onClick={() => setShowMasterPasswordModal(true)}
-                                                              className="btn btn-sm btn-success">Show
-                                    </button>
+                            <li className="info-field">
+                                <span className="info-field-title">password:</span> <br />{showPassword ? singleItem.password : '•••••••••••••'}
+                                {!showPassword ?
+
+                                    <span className="show-password-icon" onClick={() => setShowMasterPasswordModal(true)} >
+                                        { ShowPasswordIcon }
+                                    </span>
                                     :
-                                    <button onClick={() => setShowPassword(false)}
-                                            className="btn btn-sm btn-success">Hide
-                                    </button>
+                                    <span className="edit-password-icon" onClick={() => setShowPassword(false)}>
+                                        { EditIcon }
+                                    </span>
                                 }
                             </li>
-                            <li>
-                                <b>Created Date</b> {moment(parseInt(singleItem.created_date)).format("Y/m/d")}
+
+                            <li className="info-field">
+                                <span className="info-field-title">website:</span><br />
+                                <span className="">{ singleItem.url }</span>
                             </li>
-                            <li>
-                                <b>Updated Date</b> {moment(parseInt(singleItem.updated_date)).format("Y/m/d")}
+
+                            <li className="info-field">
+                                <span className="info-field-title">created:</span>
+                                <br />
+                                {moment(parseInt(singleItem.created_date)).format("Y/m/d")}
+                            </li>
+                            <li className="info-field">
+                                <span className="info-field-title">last modified:</span> <br />
+                                {moment(parseInt(singleItem.updated_date)).format("Y/m/d")}
                             </li>
                         </ul>
                     </div>
