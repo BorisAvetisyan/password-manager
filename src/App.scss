@@ -106,12 +106,27 @@ body {
         margin-left: 24px;
       }
     }
+  }
 
+  .add-new-password {
+    position: absolute;
+    bottom: 0;
   }
 }
 
 .new-website-container {
   padding: 20px;
+  width: 31%;
+}
+
+.save-password {
+  background: black;
+  color: #FFFFFF;
+}
+
+.save-password:hover {
+  background: black;
+  color: #FFFFFF;
 }
 
 
@@ -124,4 +139,13 @@ br {
   content: " ";
   margin: -8px 0px;
   display: block;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+input:focus {
+  border-color: #111113 !important;
+  box-shadow: none !important;
 }

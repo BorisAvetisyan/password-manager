@@ -67,7 +67,7 @@ function NewWebsite() {
                             aria-describedby="password" placeholder="Enter Website Password" />
                     </div>
 
-                    <button onClick={save} type="button" className="btn btn-primary mt-2">Submit</button>
+                    <button onClick={save} type="button" className="btn btn-default mt-2 save-password w-100">Save</button>
                 </form>
             </div>
 

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
-import {DefaultWebsiteIcon, EditIcon, ShowPasswordIcon} from "../media/SVG";
+import {AddNewButton, DefaultWebsiteIcon, EditIcon, ShowPasswordIcon} from "../media/SVG";
 import moment from "moment";
 import MasterPasswordModal from "./MasterPasswordModal";
 
@@ -73,9 +73,12 @@ function PasswordInfo() {
                 </div>
             }
 
-            <button className="btn btn-secondary float-end m-3" onClick={add}>New</button>
-
             {showMasterPasswordModal && <MasterPasswordModal handleClose={handleCloseMasterPassword}/>}
+
+            <span className="add-new-password cursor-pointer" onClick={add} >
+                { AddNewButton }
+            </span>
+
         </div>
     )
 }
