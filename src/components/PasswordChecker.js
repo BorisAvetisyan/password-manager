@@ -1,16 +1,11 @@
-import zxcvbn from 'zxcvbn';
+import PasswordInput from "./PasswordInput";
 
 function PasswordChecker() {
 
-    const checkPassword = (e) => {
-        console.log(zxcvbn(e.target.value));
-    }
-
     return(
-        <>
-            <p>Type your password to check how strength it is</p>
-            <input type="text" onChange={checkPassword} />
-        </>
+        <div className="analyzer-container">
+            <PasswordInput placeHolder={"Analyze your password"} />
+        </div>
     )
 }
 

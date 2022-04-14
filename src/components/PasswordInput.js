@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import zxcvbn from "zxcvbn";
 
-function PasswordInput({ handleChange }) {
+function PasswordInput({ handleChange = () => {}, placeHolder }) {
 
     const [score, setScore] = useState(0);
     const [value, setValue] = useState('');
@@ -14,6 +14,10 @@ function PasswordInput({ handleChange }) {
         setValue(e.target.value);
     }
 
+    const getScoreText = () => {
+        return "Strong"
+    }
+
     return(
         <div className="form-group mt-1">
             <label htmlFor="password">Password</label>
@@ -21,10 +25,13 @@ function PasswordInput({ handleChange }) {
                 value={value}
                 onChange={(e) => onChange(e) }
                 type="password" className="form-control" id="password"
-                aria-describedby="password" placeholder="Enter Website Password" />
+                aria-describedby="password" placeholder={placeHolder || "Enter Website Password"} />
 
             <div className={"strength-meter mt-2 " + (  value.length > 0 ? 'visible' : 'invisible' )}>
                 <div className="strength-meter-fill" data-strength={score}></div>
+            </div>
+            <div className="score-text" >
+                <span data-score={score} >{ getScoreText() }</span>
             </div>
         </div>
     )

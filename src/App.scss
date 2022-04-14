@@ -1,5 +1,11 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+$very-weak-password: #FF1744;
+$weak-password: #FFC400;
+$fair-password: #64DD17;
+$good-password: #00C853;
+$strong-password: green;
+
 body {
   min-width: 900px;
 }
@@ -116,6 +122,11 @@ body {
   }
 }
 
+.analyzer-container {
+  width: 60%;
+  margin: auto;
+}
+
 .new-website-container {
   padding: 20px;
   width: 31%;
@@ -129,6 +140,25 @@ body {
 .save-password:hover {
   background: black;
   color: #FFFFFF;
+}
+
+.score-text {
+  text-align: right;
+  .span[data-score='0'] {
+    color: $very-weak-password;
+  }
+  .span[data-score='1'] {
+    color: $weak-password;
+  }
+  .span[data-score='2'] {
+    color: $fair-password;
+  }
+  .span[data-score='3'] {
+    color: $good-password;
+  }
+  .span[data-score='4'] {
+    color: $strong-password;
+  }
 }
 
 .strength-meter {
@@ -172,27 +202,27 @@ body {
 
 .strength-meter-fill[data-strength="0"] {
   width: 20%;
-  background: #FF1744;
+  background: $very-weak-password;
 }
 
 .strength-meter-fill[data-strength="1"] {
   width: 40%;
-  background: #FFC400;;
+  background: $weak-password;
 }
 
 .strength-meter-fill[data-strength="2"] {
   width: 60%;
-  background: #64DD17;
+  background: $fair-password;
 }
 
 .strength-meter-fill[data-strength="3"] {
   width: 80%;
-  background: #00C853;
+  background: $good-password;
 }
 
 .strength-meter-fill[data-strength="4"] {
   width: 100%;
-  background: green;
+  background: $strong-password;
 }
 
 
