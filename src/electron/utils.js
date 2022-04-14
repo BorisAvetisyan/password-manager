@@ -1,5 +1,6 @@
 const fs = require("fs");
 const PasswordManager = require("./models/PasswordManager");
+const {PASSWORDS_FILE_PATH, MASTER_PASSWORD_FILE_PATH} = require("./constants");
 
 function processCSVString(csvString) {
     const data = csvString.split('\n');
@@ -11,9 +12,8 @@ function processCSVString(csvString) {
 }
 
 function hasMasterPassword() {
-    const inputPath = 'src/database/master.txt';
     try {
-        const data = fs.readFileSync(inputPath, "utf-8");
+        const data = fs.readFileSync(MASTER_PASSWORD_FILE_PATH, "utf-8");
         return data.length;
     } catch (e) {
         return false;
@@ -21,18 +21,17 @@ function hasMasterPassword() {
 }
 
 function insertData(newData, callback) {
-    const inputPath = 'src/database/passwords.csv';
-    if(!fs.existsSync(inputPath)) {
-        fs.writeFileSync(inputPath, PasswordManager.getFields());
+    if(!fs.existsSync(PASSWORDS_FILE_PATH)) {
+        fs.writeFileSync(PASSWORDS_FILE_PATH, PasswordManager.getFields());
     }
-    fs.readFile(inputPath, "utf-8", (err, csvString) => {
+    fs.readFile(PASSWORDS_FILE_PATH, "utf-8", (err, csvString) => {
         if (err) {
             console.error(err);
         } else {
             const data = csvString.split('\n');
             data.push(newData.join(','));
             // TODO ENCRYPT WEBSITE PASSWORD
-            fs.writeFileSync("src/database/passwords.csv", data.join("\n"));
+            fs.writeFileSync(PASSWORDS_FILE_PATH, data.join("\n"));
             callback();
         }
     });
