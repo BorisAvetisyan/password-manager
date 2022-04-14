@@ -15,10 +15,6 @@ function PasswordInfo() {
         setSingleItem(state?.item)
     }, [state?.item])
 
-    const add = () => {
-        history.push('/new-website')
-    }
-
     const handleCloseMasterPassword = (showPassword) => {
         console.log("show password is, ", !!showPassword)
         setShowMasterPasswordModal(false);
@@ -62,11 +58,11 @@ function PasswordInfo() {
                             <li className="info-field">
                                 <span className="info-field-title">created:</span>
                                 <br />
-                                {moment(parseInt(singleItem.created_date)).format("Y/m/d")}
+                                {moment.unix(parseInt(singleItem.created_date)).format("MM/DD/YYYY")}
                             </li>
                             <li className="info-field">
                                 <span className="info-field-title">last modified:</span> <br />
-                                {moment(parseInt(singleItem.updated_date)).format("Y/m/d")}
+                                {moment.unix(parseInt(singleItem.updated_date)).format("MM/DD/YYYY")}
                             </li>
                         </ul>
                     </div>
@@ -74,10 +70,6 @@ function PasswordInfo() {
             }
 
             {showMasterPasswordModal && <MasterPasswordModal handleClose={handleCloseMasterPassword}/>}
-
-            <span className="add-new-password cursor-pointer" onClick={add} >
-                { AddNewButton }
-            </span>
 
         </div>
     )

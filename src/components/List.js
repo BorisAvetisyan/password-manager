@@ -7,7 +7,7 @@ function List({data}) {
     const onListItemClick = (item) => {
         history.push({
             pathname: 'manager',
-            state: {item}
+            state: { item }
         })
     }
 

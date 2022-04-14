@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
 import ListBlock from "./ListBlock";
-import {EMPTY_MASTER_PASSWORD, NEW_WEBSITE} from "../utils/constants";
+import {EMPTY_MASTER_PASSWORD, NEW_PASSWORD_ADDED, NEW_WEBSITE} from "../utils/constants";
 import MasterPasswordModal from "./MasterPasswordModal";
+import {useHistory} from "react-router";
+import {VeryWeakPasswordIcon} from "../media/SVG";
+import PasswordInput from "./PasswordInput";
 
 const electron = window.require('electron');
 
@@ -12,11 +15,19 @@ function NewWebsite() {
         password: '',
     })
     const [showMasterPasswordModal, setShowMasterPasswordModal] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         electron.ipcRenderer.on(EMPTY_MASTER_PASSWORD, () => {
-            setShowMasterPasswordModal(true);
-        })
+                setShowMasterPasswordModal(true);
+            })
+            .on(NEW_PASSWORD_ADDED, (event, item) => {
+                setForm({ url: "", name: "", password: "" })
+                history.push({
+                    pathname: 'manager',
+                    state: { item }
+                })
+            })
     }, [])
 
     const handleChange = (type, e) => {
@@ -44,28 +55,23 @@ function NewWebsite() {
 
                 <form>
                     <div className="form-group">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="url">Website URL</label>
+                        <input
+                            onChange={(e) => handleChange('url', e) }
+                            type="text" className="form-control" id="url"
+                            aria-describedby="emailHelp" placeholder="Enter Website URL" />
+                    </div>
+
+
+                    <div className="form-group mt-1">
+                        <label htmlFor="name">Username</label>
                         <input
                             onChange={(e) => handleChange('name', e) }
                             type="text" className="form-control" id="name"
                             aria-describedby="emailHelp" placeholder="Enter Name" />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="url">Website URL</label>
-                        <input
-                            onChange={(e) => handleChange('url', e) }
-                            type="text" className="form-control" id="url"
-                               aria-describedby="emailHelp" placeholder="Enter Website URL" />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            onChange={(e) => handleChange('password', e) }
-                            type="password" className="form-control" id="password"
-                            aria-describedby="password" placeholder="Enter Website Password" />
-                    </div>
+                    <PasswordInput handleChange={(e) => handleChange('password', e)} />
 
                     <button onClick={save} type="button" className="btn btn-default mt-2 save-password w-100">Save</button>
                 </form>

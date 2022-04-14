@@ -1,8 +1,10 @@
-import List from "./List";
-import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
+import {useHistory} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import List from "./List";
 import {PASSWORDS_DATA} from "../utils/constants";
 import {savePasswordsData} from "../redux/actions";
+import {AddNewButton} from "../media/SVG";
 
 let electron;
 if(typeof window.require === "function") {
@@ -14,6 +16,7 @@ function ListBlock() {
     const { passwords } = useSelector(state => state.app)
     const [passwordsData, setPasswordsData] = useState(passwords);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     useEffect(() => {
         setPasswordsData(passwords);
@@ -34,6 +37,10 @@ function ListBlock() {
         setPasswordsData(passwordsData.filter(item => item.name.toLowerCase().includes(target)))
     }
 
+    const add = () => {
+        history.push('/new-website')
+    }
+
     return (
         <div className="list-block">
             <div className="input-group search-websites">
@@ -46,6 +53,10 @@ function ListBlock() {
             </div>
 
             <List data={passwordsData} />
+
+            <span className="add-new-password cursor-pointer" onClick={add} >
+                { AddNewButton }
+            </span>
         </div>
 )}
 

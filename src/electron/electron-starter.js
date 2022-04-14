@@ -4,8 +4,9 @@ const moment = require("moment");
 const { v4: uuidv4 } = require('uuid');
 const {processCSVString, hasMasterPassword, insertData} = require("./utils");
 const {PASSWORDS_DATA, NEW_WEBSITE, EMPTY_MASTER_PASSWORD, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
-    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD
+    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, NEW_PASSWORD_ADDED, MASTER_PASSWORD_FILE_PATH, PASSWORDS_FILE_PATH
 } = require("./constants");
+const PasswordManager = require("./models/PasswordManager");
 const { ipcMain } = electron;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -25,7 +26,7 @@ function createWindow() {
     });
 
     mainWindow.loadURL('http://localhost:3000');
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function () {
         mainWindow = null
     })
@@ -61,7 +62,9 @@ ipcMain.on(NEW_WEBSITE, (event, data) => {
     const insertedData = [uuidv4(), data.url, data.name, data.password, moment().unix(), moment().unix()]
     if(hasMasterPassword()) {
         insertData(insertedData, () => {
-            emitPasswordsData()
+            emitPasswordsData();
+            const instanceObject = new PasswordManager(insertedData);
+            mainWindow.webContents.send(NEW_PASSWORD_ADDED, instanceObject)
         })
     } else {
         mainWindow.webContents.send(EMPTY_MASTER_PASSWORD)
@@ -69,26 +72,23 @@ ipcMain.on(NEW_WEBSITE, (event, data) => {
 })
 
 ipcMain.on(NEW_MASTER_PASSWORD, (event, newPassword) => {
-    const inputPath = 'src/database/master.txt';
     // TODO encrypt master password
-    fs.writeFileSync(inputPath, newPassword);
+    fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, newPassword);
     mainWindow.webContents.send(NEW_MASTER_PASSWORD_SAVED)
 })
 
 ipcMain.on(CHECK_MASTER_PASSWORD, (event, data) => {
     // todo encrypt master password to check
-    const inputPath = 'src/database/master.txt';
-    const masterPassword = fs.readFileSync(inputPath, "utf-8");
+    const masterPassword = fs.readFileSync(MASTER_PASSWORD_FILE_PATH, "utf-8");
     mainWindow.webContents.send(CHECKED_MASTER_PASSWORD, data === masterPassword);
 })
 
 function emitPasswordsData() {
-    const inputPath = 'src/database/passwords.csv';
-    if(!fs.existsSync(inputPath)) {
+    if(!fs.existsSync(PASSWORDS_FILE_PATH)) {
         mainWindow.webContents.send(PASSWORDS_DATA, []);
         return;
     }
-    fs.readFile(inputPath, "utf-8", (err, csvString) => {
+    fs.readFile(PASSWORDS_FILE_PATH, "utf-8", (err, csvString) => {
         if (err) {
             console.error(err);
         } else {
