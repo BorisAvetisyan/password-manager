@@ -59,6 +59,7 @@ app.on('activate', function () {
 });
 
 ipcMain.on(NEW_WEBSITE, (event, data) => {
+    // TODO encrypt website password
     const insertedData = [uuidv4(), data.url, data.name, data.password, moment().unix(), moment().unix()]
     if(hasMasterPassword()) {
         insertData(insertedData, () => {
