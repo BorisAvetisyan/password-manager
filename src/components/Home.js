@@ -30,7 +30,7 @@ function Home() {
             <div className="col-12 d-flex justify-content-around menu-blocks-container">
                 <div className={"row"}>
                     <MenuBlock title="Password Manager" icon={Icon1} event={() => historyPush('manager') } />
-                    <MenuBlock title="Password generator" icon={Icon3} event={() => historyPush('generator') } />
+                    <MenuBlock title="Password generator" icon={Icon3} event={() => historyPush('password-generator') } />
                     <MenuBlock title="Password Analyzer" icon={Icon2} event={() => historyPush('checker') } />
                 </div>
             </div>

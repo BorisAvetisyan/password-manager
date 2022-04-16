@@ -122,6 +122,42 @@ body {
   }
 }
 
+.password-generator-container {
+
+  .left-generator {
+    width: 56%;
+    margin: auto;
+  }
+
+  .given-words-info-block, .random-password-generator-block {
+    padding-top: 25px;
+    width: 320px;
+    height: 200px;
+    box-sizing: border-box;
+    border: 1px solid #457B9D;
+    box-shadow: 0 4px 20px rgba(168, 218, 220, 0.5);
+    border-radius: 30px;
+    .header {
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .description {
+      font-style: normal;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 138%;
+    }
+    .guide {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 138%;
+      letter-spacing: 0.0075em;
+      color: #457B9D;
+    }
+  }
+}
+
 .analyzer-container {
   width: 60%;
   margin: auto;
@@ -132,31 +168,21 @@ body {
   width: 31%;
 }
 
-.save-password {
-  background: black;
-  color: #FFFFFF;
-}
-
-.save-password:hover {
-  background: black;
-  color: #FFFFFF;
-}
-
 .score-text {
   text-align: right;
-  .span[data-score='0'] {
+  span[data-score='0'] {
     color: $very-weak-password;
   }
-  .span[data-score='1'] {
+  span[data-score='1'] {
     color: $weak-password;
   }
-  .span[data-score='2'] {
+  span[data-score='2'] {
     color: $fair-password;
   }
-  .span[data-score='3'] {
+  span[data-score='3'] {
     color: $good-password;
   }
-  .span[data-score='4'] {
+  span[data-score='4'] {
     color: $strong-password;
   }
 }
@@ -245,4 +271,81 @@ br {
 input:focus {
   border-color: #111113 !important;
   box-shadow: none !important;
+}
+
+.actions-block {
+  height: 30px;
+  button {
+    padding: 0 0.75rem !important;
+    margin-right: 20px;
+  }
+}
+
+.numeric-input-block {
+  width: 148px;
+  max-width: 148px;
+  position: relative;
+  .custom-numeric-input {
+    max-width: 108px;
+    padding: 0;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 999px 0 0 999px;
+    /* Gray/300 */
+    border: 1px solid #D0D5DD;
+    box-sizing: border-box;
+    height: 44px  ;
+  }
+
+  .input-arrow-up, .input-arrow-down {
+    background: #026E78;;
+    width: 40px;
+    height: 22px;
+    position: absolute;
+    z-index: 999;
+    transition: 0.3s;
+  }
+
+  .input-arrow-down:hover, .input-arrow-up:hover {
+    background: #015364;
+  }
+
+  .input-arrow-up {
+    top: 0;
+    right: 3px;
+    border-radius: 0 999px 0 0;
+  }
+
+  .input-arrow-down {
+    bottom: 0;
+    right: 3px;
+    border-radius: 999px 0 0 0;
+    transform: rotate(180deg);
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+.btn-black {
+  background: black;
+  color: #FFFFFF;
+}
+
+.btn-black:hover {
+  background: black;
+  color: #FFFFFF;
+}
+
+.f-11 {
+  font-size: 11px;
 }

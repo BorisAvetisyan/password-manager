@@ -5,6 +5,7 @@ import PasswordManager from "./components/PasswordManager";
 import PasswordChecker from "./components/PasswordChecker";
 import NewWebsite from "./components/NewWebsite";
 import Header from "./components/Header";
+import PasswordGenerator from "./components/PasswordGenerator";
 
 function App() {
 
@@ -14,10 +15,12 @@ function App() {
                 <Header />
                 <Switch>
                     <Redirect exact from={'/'} to={'/home'}/>
+
                     <Route path='/home' exact={true} component={Home}/>
                     <Route path='/manager' exact={true} component={PasswordManager}/>
                     <Route path='/checker' exact={true} component={PasswordChecker}/>
                     <Route path="/new-website" exact={true} component={NewWebsite} />
+                    <Route path="/password-generator" exact={true} component={PasswordGenerator} />
                 </Switch>
             </BrowserRouter>
         </div>

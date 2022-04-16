@@ -3,7 +3,6 @@ import ListBlock from "./ListBlock";
 import {EMPTY_MASTER_PASSWORD, NEW_PASSWORD_ADDED, NEW_WEBSITE} from "../utils/constants";
 import MasterPasswordModal from "./MasterPasswordModal";
 import {useHistory} from "react-router";
-import {VeryWeakPasswordIcon} from "../media/SVG";
 import PasswordInput from "./PasswordInput";
 
 const electron = window.require('electron');
@@ -73,7 +72,7 @@ function NewWebsite() {
 
                     <PasswordInput handleChange={(e) => handleChange('password', e)} />
 
-                    <button onClick={save} type="button" className="btn btn-default mt-2 save-password w-100">Save</button>
+                    <button onClick={save} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
                 </form>
             </div>
 
