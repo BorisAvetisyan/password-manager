@@ -33,11 +33,14 @@ function MasterPasswordModal({ isNew, handleClose }) {
         electron.ipcRenderer.send(event, password);
     }
 
+    const title = isNew ? 'Please enter your master password and press save' : ' Please enter your master password'
+    const buttonText = isNew ? 'Save' : 'Submit'
+
     return(
         <Modal show onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    Please fill your master password and press save
+                    { title }
                 </Modal.Title>
             </Modal.Header>
 
@@ -48,7 +51,7 @@ function MasterPasswordModal({ isNew, handleClose }) {
 
             <Modal.Footer>
                 <button onClick={handleClose} className="btn btn-secondary">Close</button>
-                <button className="btn btn-primary" onClick={save}>Save</button>
+                <button className="btn btn-black" onClick={save}>{buttonText}</button>
             </Modal.Footer>
         </Modal>
     )

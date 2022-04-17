@@ -1,5 +1,4 @@
 import {DefaultWebsiteIcon} from "../media/SVG";
-import {memo} from "react";
 
 function ListItem({ item, onListItemClick, isSelected }) {
 

@@ -31,18 +31,25 @@ function ListBlock() {
     const filter = (e) => {
         const target = e.target.value
         if(!target.length) {
-            setPasswordsData(passwords);
+            setPasswordsData({...passwords});
             return;
         }
-        setPasswordsData(passwordsData.filter(item => item.name.toLowerCase().includes(target)))
+        const object = {...passwordsData};
+        for(const prop in object) {
+            const value = object[prop];
+            object[prop] = value.filter(item => item.name.toLowerCase().includes(target.toLowerCase()))
+        }
+        setPasswordsData(object);
     }
 
     const add = () => {
-        history.push('/new-website')
+        history.push('/new-website');
+        window.scrollTo(0, 0);
     }
 
     return (
         <div className="list-block">
+
             <div className="input-group search-websites">
                 <input type="text" className="form-control" onChange={filter} placeholder="Search..." />
                     <div className="input-group-addon">

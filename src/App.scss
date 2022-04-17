@@ -74,11 +74,27 @@ body {
   .list {
     list-style-type: none;
     .list-item {
+      border-radius: 12px;
       height: 56px;
       cursor: pointer;
+      align-items: center;
+      display: flex;
+      padding-left: 8px;
       .website-name {
         margin-left: 12px;
       }
+    }
+    .li-namespace {
+      height: 37px;
+      display: flex;
+      align-items: center;
+      color: #818181;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+    }
+    .list-item-selected {
+      background: #A8DADC;
     }
   }
 

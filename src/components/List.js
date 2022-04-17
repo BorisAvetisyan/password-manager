@@ -1,14 +1,15 @@
-import ListItem from "./ListItem";
 import {useHistory} from "react-router";
+import ListItem from "./ListItem";
 
-function List({data}) {
+function List({ data }) {
     const history = useHistory();
 
     const onListItemClick = (item) => {
         history.push({
             pathname: 'manager',
-            state: { item }
+            state: {item}
         })
+        window.scrollTo(0, 0)
     }
 
     const isSelectedItem = (singleItem) => {
@@ -20,10 +21,18 @@ function List({data}) {
 
     return (
         <ul className="list">
-            {data.map(item => (
-                <ListItem isSelected={isSelectedItem(item)} key={JSON.stringify(item)} item={item}
-                          onListItemClick={onListItemClick}/>
-            ))}
+            { Object.keys(data).map((item, index) => {
+                return (
+                    <>
+                        { data[item] && data[item].length ? <li className="list-item li-namespace" key={item}>{item}</li> : <></>}
+                        { data[item].map(item => (
+                            <ListItem isSelected={isSelectedItem(item)} key={JSON.stringify(item)} item={item}
+                                      onListItemClick={onListItemClick} />
+                        ))}
+                        <li className="horizontal-separator" key={index} />
+                    </>
+                )
+            })}
         </ul>
     )
 }

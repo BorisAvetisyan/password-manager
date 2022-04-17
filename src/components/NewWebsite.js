@@ -27,7 +27,7 @@ function NewWebsite() {
                     state: { item }
                 })
             })
-    }, [])
+    }, [history])
 
     const handleChange = (type, e) => {
         setForm({...form, ...{ [type]: e.target.value } })
