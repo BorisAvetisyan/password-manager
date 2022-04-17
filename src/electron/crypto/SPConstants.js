@@ -56,4 +56,8 @@ const M_Inverse = [
     [-2, 2, -8, 16, -4, 4, -2, 4, -1, 1, -2, 4, -1, 1, -1, 2]
 ];
 
-module.exports = { BiasWords, M, M_Inverse};
+const additionRoundIndices = [0, 3, 4, 7, 8, 11, 12, 15];
+
+const modAdditionRoundIndices = [1, 2, 5, 6, 9, 10, 13, 14];
+
+module.exports = { BiasWords, M, M_Inverse, additionRoundIndices, modAdditionRoundIndices };
