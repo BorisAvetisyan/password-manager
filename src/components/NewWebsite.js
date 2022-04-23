@@ -51,29 +51,30 @@ function NewWebsite() {
         <div className="password-manager d-flex">
             <ListBlock />
             <div className="new-website-container">
+                <div className="new-website-form-block">
+                    <form>
+                        <div className="form-group">
+                            <label htmlFor="url">Website URL</label>
+                            <input
+                                onChange={(e) => handleChange('url', e) }
+                                type="text" className="form-control" id="url"
+                                aria-describedby="emailHelp" placeholder="Enter Website URL" />
+                        </div>
 
-                <form>
-                    <div className="form-group">
-                        <label htmlFor="url">Website URL</label>
-                        <input
-                            onChange={(e) => handleChange('url', e) }
-                            type="text" className="form-control" id="url"
-                            aria-describedby="emailHelp" placeholder="Enter Website URL" />
-                    </div>
 
+                        <div className="form-group mt-1">
+                            <label htmlFor="name">Username</label>
+                            <input
+                                onChange={(e) => handleChange('name', e) }
+                                type="text" className="form-control" id="name"
+                                aria-describedby="emailHelp" placeholder="Enter Name" />
+                        </div>
 
-                    <div className="form-group mt-1">
-                        <label htmlFor="name">Username</label>
-                        <input
-                            onChange={(e) => handleChange('name', e) }
-                            type="text" className="form-control" id="name"
-                            aria-describedby="emailHelp" placeholder="Enter Name" />
-                    </div>
+                        <PasswordInput handleChange={(e) => handleChange('password', e)} />
 
-                    <PasswordInput handleChange={(e) => handleChange('password', e)} />
-
-                    <button onClick={save} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
-                </form>
+                        <button onClick={save} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
+                    </form>
+                </div>
             </div>
 
             { showMasterPasswordModal && <MasterPasswordModal isNew handleClose={handleCloseMasterPasswordModal} /> }

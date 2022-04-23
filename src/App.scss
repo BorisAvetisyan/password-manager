@@ -116,7 +116,6 @@ body {
     }
 
     .info-header {
-
       .info-url {
         color: #457B9D;
         font-size: 20px;
@@ -181,7 +180,11 @@ body {
 
 .new-website-container {
   padding: 20px;
-  width: 31%;
+  width: 75%;
+
+  .new-website-form-block {
+    width: 35%;
+  }
 }
 
 .score-text {
