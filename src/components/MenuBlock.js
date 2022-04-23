@@ -1,5 +1,3 @@
-
-
 function MenuBlock({ title, icon, event }) {
     return(
         <div className="col-lg-4 col-sm-12 menu-block d-table m-3" onClick={event} >

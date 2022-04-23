@@ -1,6 +1,6 @@
 import React from "react";
 import {HelperIcon} from "../media/SVG";
-import NumericInput from "./NumericInput";
+import NumericInput from "./common/NumericInput";
 
 function PasswordGenerator() {
     return(

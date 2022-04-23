@@ -1,4 +1,4 @@
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "./common/PasswordInput";
 
 function PasswordChecker() {
 

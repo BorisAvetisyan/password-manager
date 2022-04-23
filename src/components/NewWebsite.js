@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import ListBlock from "./ListBlock";
+import ListBlock from "./list/ListBlock";
 import {EMPTY_MASTER_PASSWORD, NEW_PASSWORD_ADDED, NEW_WEBSITE, ROUTES} from "../utils/constants";
 import MasterPasswordModal from "./MasterPasswordModal";
 import {useHistory} from "react-router";
-import PasswordInput from "./PasswordInput";
+import PasswordInput from "./common/PasswordInput";
 
 const electron = window.require('electron');
 

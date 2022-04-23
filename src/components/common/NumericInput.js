@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { ArrowDownIcon, ArrowUpIcon } from "../media/SVG";
+import { ArrowDownIcon, ArrowUpIcon } from "../../media/SVG";
 
 function NumericInput() {
 

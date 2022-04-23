@@ -3,7 +3,7 @@ import {useHistory} from "react-router";
 import {EditIcon, ShowPasswordIcon} from "../media/SVG";
 import moment from "moment";
 import MasterPasswordModal from "./MasterPasswordModal";
-import WebsiteIcon from "./WebsiteIcon";
+import WebsiteIcon from "./common/WebsiteIcon";
 
 function PasswordInfo() {
     const [singleItem, setSingleItem] = useState(null);

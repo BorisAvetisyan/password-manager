@@ -1,4 +1,4 @@
-import WebsiteIcon from "./WebsiteIcon";
+import WebsiteIcon from "../common/WebsiteIcon";
 
 function ListItem({ item, onListItemClick, isSelected }) {
 

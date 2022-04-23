@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import List from "./List";
-import {PASSWORDS_DATA, ROUTES} from "../utils/constants";
-import {savePasswordsData} from "../redux/actions";
-import {AddNewButton} from "../media/SVG";
+import {PASSWORDS_DATA, ROUTES} from "../../utils/constants";
+import {savePasswordsData} from "../../redux/actions";
+import {AddNewButton} from "../../media/SVG";
 
 let electron;
 if(typeof window.require === "function") {
@@ -31,7 +31,7 @@ function ListBlock() {
                 history.push(ROUTES.NEW_WEBSITE)
             }
         })
-    }, [dispatch])
+    }, [dispatch, history])
 
     const filter = (e) => {
         let target = e.target.value
@@ -42,12 +42,9 @@ function ListBlock() {
         const object = {...passwordsData};
         for(const prop in object) {
             const value = object[prop];
+            target = target.toLowerCase();
             object[prop] = value.filter(
-                item => {
-                    target = target.toLowerCase();
-                    return item.name.toLowerCase().includes(target)
-                     || item.url.toLowerCase().includes(target)
-                }
+                item => item.name.toLowerCase().includes(target) || item.url.toLowerCase().includes(target)
             )
         }
         setPasswordsData(object);
