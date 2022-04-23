@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
-import {AddNewButton, DefaultWebsiteIcon, EditIcon, ShowPasswordIcon} from "../media/SVG";
+import {EditIcon, ShowPasswordIcon} from "../media/SVG";
 import moment from "moment";
 import MasterPasswordModal from "./MasterPasswordModal";
+import WebsiteIcon from "./WebsiteIcon";
 
 function PasswordInfo() {
     const [singleItem, setSingleItem] = useState(null);
@@ -27,7 +28,7 @@ function PasswordInfo() {
                 <div className="info-row">
                     <div className="info-header">
                         <span className="website-icon">
-                            {DefaultWebsiteIcon({width: 50, height: 50})}
+                            <WebsiteIcon domain={singleItem.url} />
                         </span>
                         <span className="info-url">{singleItem.url}</span>
                     </div>

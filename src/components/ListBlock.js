@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import List from "./List";
-import {PASSWORDS_DATA} from "../utils/constants";
+import {PASSWORDS_DATA, ROUTES} from "../utils/constants";
 import {savePasswordsData} from "../redux/actions";
 import {AddNewButton} from "../media/SVG";
 
@@ -24,12 +24,17 @@ function ListBlock() {
 
     useEffect(() => {
         electron && electron.ipcRenderer.on(PASSWORDS_DATA, (event, data) => {
-            dispatch(savePasswordsData(data))
+            if(data.length) {
+                dispatch(savePasswordsData(data))
+            } else {
+                console.log("push into history")
+                history.push(ROUTES.NEW_WEBSITE)
+            }
         })
     }, [dispatch])
 
     const filter = (e) => {
-        const target = e.target.value
+        let target = e.target.value
         if(!target.length) {
             setPasswordsData({...passwords});
             return;
@@ -37,13 +42,19 @@ function ListBlock() {
         const object = {...passwordsData};
         for(const prop in object) {
             const value = object[prop];
-            object[prop] = value.filter(item => item.name.toLowerCase().includes(target.toLowerCase()))
+            object[prop] = value.filter(
+                item => {
+                    target = target.toLowerCase();
+                    return item.name.toLowerCase().includes(target)
+                     || item.url.toLowerCase().includes(target)
+                }
+            )
         }
         setPasswordsData(object);
     }
 
     const add = () => {
-        history.push('/new-website');
+        history.push(ROUTES.NEW_WEBSITE);
         window.scrollTo(0, 0);
     }
 

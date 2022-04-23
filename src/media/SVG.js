@@ -15,10 +15,6 @@ export const Icon3 = <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
     <path d="M40.85 34.3765C40.8625 34.1718 40.8719 33.9593 40.8719 33.7375C40.8625 32.6781 40.7344 31.4078 40.0031 30.2093C39.2891 28.9922 37.7563 28.0843 35.9375 28.1265C34.1172 28.0843 32.5813 28.9922 31.8672 30.2093C31.1328 31.4078 31.0047 32.6781 30.9984 33.7375C30.9984 33.9609 31.0078 34.1718 31.0203 34.3765H29.6875V42.1875H42.1875V34.3765H40.85ZM34.1203 33.7375C34.1141 32.9906 34.2656 32.2406 34.5172 31.8656C34.7875 31.5125 34.9391 31.2953 35.9375 31.2515C36.9328 31.2937 37.0781 31.5093 37.35 31.8656C37.6031 32.2406 37.7547 32.9953 37.7453 33.7375C37.7453 33.964 37.7328 34.175 37.7156 34.3765H34.15C34.1344 34.1718 34.1203 33.9578 34.1203 33.7375Z" fill="#1D3557"/>
 </svg>
 
-export const DefaultWebsiteIcon = (props = {}) => <svg width={props.width || 40} height={props.height || 40} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="40" height="40" rx="20" fill="#1672EC"/>
-</svg>
-
 export const HomeIcon = <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M27 29H5V17H3.235C2.097 17 1.566 15.581 2.423 14.832L14.131 3.74499C15.179 2.75199 16.82 2.75199 17.868 3.74499L29.575 14.832C30.433 15.58 29.902 17 28.763 17H27V29Z" stroke="black" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M20 29H12V23C12 20.791 13.791 19 16 19C18.209 19 20 20.791 20 23V29Z" stroke="black" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>

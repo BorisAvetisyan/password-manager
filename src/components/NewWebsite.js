@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import ListBlock from "./ListBlock";
-import {EMPTY_MASTER_PASSWORD, NEW_PASSWORD_ADDED, NEW_WEBSITE} from "../utils/constants";
+import {EMPTY_MASTER_PASSWORD, NEW_PASSWORD_ADDED, NEW_WEBSITE, ROUTES} from "../utils/constants";
 import MasterPasswordModal from "./MasterPasswordModal";
 import {useHistory} from "react-router";
 import PasswordInput from "./PasswordInput";
@@ -23,7 +23,7 @@ function NewWebsite() {
             .on(NEW_PASSWORD_ADDED, (event, item) => {
                 setForm({ url: "", name: "", password: "" })
                 history.push({
-                    pathname: 'manager',
+                    pathname: ROUTES.MANAGER,
                     state: { item }
                 })
             })
