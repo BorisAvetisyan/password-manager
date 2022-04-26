@@ -1,11 +1,67 @@
 const {M, M_Inverse, additionRoundIndices, modAdditionRoundIndices} = require('./SPConstants');
 const {generateSubKeys} = require('./SPKeySchedule');
 
+const blockSize = 16;
+
 const encrypt = (plaintext, key) => {
+    let numberOfBlocks = Math.ceil(plaintext.length / blockSize);
+    if (plaintext.length % blockSize === 0) {
+        numberOfBlocks++;
+    }
+
+    let blocks = createEmptyMatrix(numberOfBlocks, blockSize);
+    for (let i = 0; i < blocks.length; i++) {
+        for (let j = 0; j < blockSize; j++) {
+            blocks[i][j] = plaintext.charCodeAt(i * blockSize + j);
+        }
+    }
+
+    let emptyCellCount = numberOfBlocks * blockSize - plaintext.length;
+    for (let i = blockSize - emptyCellCount; i < blockSize; i++) {
+        blocks[numberOfBlocks - 1][i] = emptyCellCount;
+    }
+
+    for (let i = 0; i < numberOfBlocks; i++) {
+        blocks[i] = encryptBlock(blocks[i], key);
+    }
+
+    return blocks.map(item => item.join('|')).join('|');
+};
+
+const decrypt = (ciphertext, key) => {
+    let bytes = ciphertext.split('|');
+    let blocks = createEmptyMatrix(bytes.length / blockSize, blockSize);
+    for (let i = 0; i < blocks.length; i++) {
+        for (let j = 0; j < blockSize; j++) {
+            blocks[i][j] = parseInt(bytes[i * blockSize + j]);
+        }
+    }
+
+    for (let i = 0; i < blocks.length; i++) {
+        blocks[i] = decryptBlock(blocks[i], key);
+    }
+
+    const addedCharactersCount = blocks[blocks.length - 1][blockSize - 1];
+    const plaintextLength = blockSize * blocks.length - addedCharactersCount;
+
+    let plaintext = '';
+    for (let i = 0; i < blocks.length; i++) {
+        for (let j = 0; j < blocks[i].length; j++) {
+            if (plaintext.length === plaintextLength) {
+                return plaintext;
+            }
+            plaintext += String.fromCharCode(blocks[i][j]);
+        }
+    }
+
+    return plaintext;
+};
+
+const encryptBlock = (plaintext, key) => {
     const subKeys = generateSubKeys(key);
     let result = Array(plaintext.length);
     for (let i = 0; i < plaintext.length; i++) {
-        result[i] = plaintext.codePointAt(i);
+        result[i] = plaintext[i];
     }
 
     for (let i = 0; i < 8; i++) {
@@ -41,7 +97,7 @@ const encrypt = (plaintext, key) => {
     return result;
 };
 
-const decrypt = (ciphertext, key) => {
+const decryptBlock = (ciphertext, key) => {
     const subKeys = generateSubKeys(key);
     let result = Array(ciphertext.length);
     for (let i = 0; i < ciphertext.length; i++) {
@@ -128,5 +184,27 @@ const mod = (val) => {
     }
     return val % 256;
 };
+
+const createEmptyMatrix = (rows, columns) => {
+    let result = Array(rows);
+    for (let i = 0; i < rows; i++) {
+        result[i] = Array(columns);
+    }
+    return result;
+};
+
+let key = "abcdefghabcdefgh";
+let text = "1234567812345671";
+// let result = encrypt(text, key);
+// console.log(result);
+// decrypt(result, key);
+
+const crypto = require('crypto-js');
+let ciphertext = crypto.AES.encrypt(text, key).toString();
+console.log(ciphertext);
+
+let bytes = crypto.AES.decrypt(ciphertext, key);
+let plaintext = bytes.toString(crypto.enc.Utf8);
+console.log(plaintext)
 
 module.exports = {encrypt, decrypt};
