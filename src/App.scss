@@ -72,6 +72,10 @@ body {
   }
 
   .list {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    white-space: nowrap;
+    height: 600px;
     list-style-type: none;
     .list-item {
       border-radius: 2px;

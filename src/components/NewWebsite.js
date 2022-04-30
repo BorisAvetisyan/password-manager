@@ -44,6 +44,7 @@ function NewWebsite() {
         if(!form.url.length || !form.name.length || !form.password.length) {
             return;
         }
+        form.url = 'https://' + form.url;
         electron.ipcRenderer.send(NEW_WEBSITE, form);
     }
 

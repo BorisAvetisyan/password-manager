@@ -7,7 +7,6 @@ export const NEW_MASTER_PASSWORD_SAVED = 'NEW_MASTER_PASSWORD_SAVED';
 export const CHECKED_MASTER_PASSWORD = 'CHECKED_MASTER_PASSWORD';
 export const NEW_PASSWORD_ADDED = 'NEW_PASSWORD_ADDED'
 
-
 export const ROUTES = {
     NEW_WEBSITE: 'new-website',
     MANAGER: 'manager'

@@ -17,7 +17,6 @@ function PasswordInfo() {
     }, [state?.item])
 
     const handleCloseMasterPassword = (showPassword) => {
-        console.log("show password is, ", !!showPassword)
         setShowMasterPasswordModal(false);
         setShowPassword(!!showPassword)
     }
