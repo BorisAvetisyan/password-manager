@@ -5,13 +5,13 @@ import {
     CHECK_MASTER_PASSWORD,
     CHECKED_MASTER_PASSWORD,
     NEW_MASTER_PASSWORD,
-    NEW_MASTER_PASSWORD_SAVED
+    NEW_MASTER_PASSWORD_SAVED, NEW_WEBSITE, PASSWORD_DECRYPT, PASSWORD_DECRYPTED
 } from "../utils/constants";
 
 const electron = window.require('electron');
 
-function MasterPasswordModal({ isNew, handleClose }) {
-    const [password, setPassword] = useState([])
+function MasterPasswordModal({ isNew, handleClose, passwordItem }) {
+    const [masterPassword, setMasterPassword] = useState([])
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -26,11 +26,29 @@ function MasterPasswordModal({ isNew, handleClose }) {
                 }
                 handleClose(true);
             })
+            .on(PASSWORD_DECRYPTED, (event, payload) => {
+                handleClose(payload);
+            })
     }, [handleClose])
 
     const save = () => {
-        const event = isNew ? NEW_MASTER_PASSWORD : CHECK_MASTER_PASSWORD;
-        electron.ipcRenderer.send(event, password);
+        if(!isNew) {
+            showPassword();
+        } else {
+            handleClose(masterPassword);
+        }
+    }
+
+    const showPassword = () => {
+        if(!masterPassword) {
+            handleClose();
+            return;
+        }
+        const payload = {
+            item: passwordItem,
+            masterPassword
+        }
+        electron.ipcRenderer.send(PASSWORD_DECRYPT, payload);
     }
 
     const title = isNew ? 'Please enter your master password and press save' : ' Please enter your master password'
@@ -46,7 +64,7 @@ function MasterPasswordModal({ isNew, handleClose }) {
 
             <Modal.Body>
                 {error && <p>{error}</p>}
-                <input className="form-control" placeholder="Password..." type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input className="form-control" placeholder="Password..." type="password" value={masterPassword} onChange={(e) => setMasterPassword(e.target.value)} />
             </Modal.Body>
 
             <Modal.Footer>

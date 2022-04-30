@@ -9,11 +9,17 @@ const fields = 'id,url,name,password,created_date,updated_date';
 
 class PasswordManager {
     static setMasterPassword(password) {
-        let ciphertext = encrypt(password, password);
+        if(!password || !password.length) {
+            throw new Error("Master password is missing");
+        }
+        const ciphertext = encrypt(password, password);
         fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, ciphertext);
     }
 
     static checkMasterPassword(password) {
+        if(!password || !password.length) {
+            return false;
+        }
         const masterPassword = fs.readFileSync(MASTER_PASSWORD_FILE_PATH, 'utf-8');
         const plaintext = decrypt(masterPassword, password);
         return plaintext === password;
@@ -30,7 +36,9 @@ class PasswordManager {
 
     static addPasswordData(data, masterPassword) {
         if (this.hasMasterPassword()) {
+            console.log("has master password")
             if (!this.checkMasterPassword(masterPassword)) {
+                console.log("wrong master password")
                 return {
                     success: false,
                     event: CHECKED_MASTER_PASSWORD,
@@ -38,18 +46,22 @@ class PasswordManager {
                 };
             }
         } else {
+            console.log("set master password")
             this.setMasterPassword(masterPassword);
         }
 
         const encryptedPassword = encrypt(data.password, masterPassword);
         const insertedData = [uuidv4(), data.url, data.name, encryptedPassword, moment().unix(), moment().unix()];
         try {
+            console.log("before insert")
             this.insertData(insertedData);
+            console.log("after insert")
             return {
                 success: true,
                 event: NEW_PASSWORD_ADDED
             };
         } catch (e) {
+            console.log("error, ", e);
             return {
                 success: false,
                 event: FAILED_TO_ADD_NEW_PASSWORD

@@ -1,7 +1,7 @@
 const electron = require('electron');
 const {
     PASSWORDS_DATA, NEW_WEBSITE, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
-    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD
+    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, PASSWORD_DECRYPTED, PASSWORD_DECRYPT
 } = require("./constants");
 const PasswordManager = require("./models/PasswordManager");
 const {ipcMain} = electron;
@@ -56,6 +56,7 @@ app.on('activate', function () {
 });
 
 ipcMain.on(NEW_WEBSITE, (event, data) => {
+    console.log("data, ", data);
     let result = PasswordManager.addPasswordData(data, data.masterPassword);
     if (result.success) {
         emitPasswordsData();
@@ -70,6 +71,12 @@ ipcMain.on(NEW_MASTER_PASSWORD, (event, newPassword) => {
 
 ipcMain.on(CHECK_MASTER_PASSWORD, (event, data) => {
     mainWindow.webContents.send(CHECKED_MASTER_PASSWORD, PasswordManager.checkMasterPassword(data));
+})
+
+ipcMain.on(PASSWORD_DECRYPT, (event, data) => {
+    const result = PasswordManager.decryptPassword(data.item, data.masterPassword);
+    console.log("result, ", result);
+    mainWindow.webContents.send(result.event, result.eventValue);
 })
 
 function emitPasswordsData() {

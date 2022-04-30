@@ -33,15 +33,18 @@ function NewWebsite() {
         setForm({...form, ...{ [type]: e.target.value } })
     }
 
-    const handleCloseMasterPasswordModal = (isNewPasswordAdded) => {
-        setShowMasterPasswordModal(false);
-        if(isNewPasswordAdded) {
-            save();
+    const handleCloseMasterPasswordModal = (masterPassword) => {
+        if(!masterPassword) {
+            setShowMasterPasswordModal(false);
+            return;
         }
+        form.masterPassword = masterPassword;
+        setShowMasterPasswordModal(false);
+        save();
     }
 
     const save = () => {
-        if(!form.url.length || !form.name.length || !form.password.length) {
+        if(!form.url.length || !form.name.length || !form.password.length || !form.masterPassword.length) {
             return;
         }
         form.url = 'https://' + form.url;
@@ -73,7 +76,7 @@ function NewWebsite() {
 
                         <PasswordInput handleChange={(e) => handleChange('password', e)} />
 
-                        <button onClick={save} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
+                        <button onClick={() => setShowMasterPasswordModal(true)} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
                     </form>
                 </div>
             </div>

@@ -6,38 +6,40 @@ import MasterPasswordModal from "./MasterPasswordModal";
 import WebsiteIcon from "./common/WebsiteIcon";
 
 function PasswordInfo() {
-    const [singleItem, setSingleItem] = useState(null);
+    const [passwordItem, setPasswordItem] = useState(null);
     const history = useHistory();
     const [showPassword, setShowPassword] = useState(false);
+    const [decryptedPassword, setDecryptedPassword] = useState('');
     const [showMasterPasswordModal, setShowMasterPasswordModal] = useState(false);
     const {state} = history.location;
 
     useEffect(() => {
-        setSingleItem(state?.item)
+        setPasswordItem(state?.item)
     }, [state?.item])
 
-    const handleCloseMasterPassword = (showPassword) => {
+    const handleCloseMasterPassword = (password) => {
         setShowMasterPasswordModal(false);
-        setShowPassword(!!showPassword)
+        setShowPassword(!!password);
+        setDecryptedPassword(password);
     }
 
     return (
         <div className="info-block">
-            {singleItem &&
+            {passwordItem &&
                 <div className="info-row">
                     <div className="info-header">
                         <span className="website-icon">
-                            <WebsiteIcon domain={singleItem.url} />
+                            <WebsiteIcon domain={passwordItem.url} />
                         </span>
-                        <span className="info-url">{singleItem.url}</span>
+                        <span className="info-url">{passwordItem.url}</span>
                     </div>
                     <div>
                         <ul className="info-ul mt-3">
                             <li className="info-field">
-                                <span className="info-field-title">name</span> {singleItem.name}
+                                <span className="info-field-title">name</span> {passwordItem.name}
                             </li>
                             <li className="info-field">
-                                <span className="info-field-title">password:</span> <br />{showPassword ? singleItem.password : '•••••••••••••'}
+                                <span className="info-field-title">password:</span> <br />{showPassword ? decryptedPassword : '•••••••••••••'}
                                 {!showPassword ?
 
                                     <span className="show-password-icon" onClick={() => setShowMasterPasswordModal(true)} >
@@ -52,24 +54,24 @@ function PasswordInfo() {
 
                             <li className="info-field">
                                 <span className="info-field-title">website:</span><br />
-                                <span className="">{ singleItem.url }</span>
+                                <span className="">{ passwordItem.url }</span>
                             </li>
 
                             <li className="info-field">
                                 <span className="info-field-title">created:</span>
                                 <br />
-                                {moment.unix(parseInt(singleItem.created_date)).format("MM/DD/YYYY")}
+                                {moment.unix(parseInt(passwordItem.created_date)).format("MM/DD/YYYY")}
                             </li>
                             <li className="info-field">
                                 <span className="info-field-title">last modified:</span> <br />
-                                {moment.unix(parseInt(singleItem.updated_date)).format("MM/DD/YYYY")}
+                                {moment.unix(parseInt(passwordItem.updated_date)).format("MM/DD/YYYY")}
                             </li>
                         </ul>
                     </div>
                 </div>
             }
 
-            {showMasterPasswordModal && <MasterPasswordModal handleClose={handleCloseMasterPassword}/>}
+            {showMasterPasswordModal && <MasterPasswordModal passwordItem={passwordItem} handleClose={handleCloseMasterPassword}/>}
 
         </div>
     )
