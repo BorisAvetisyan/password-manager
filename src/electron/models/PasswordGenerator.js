@@ -6,8 +6,7 @@ const uppercaseLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N
 const crypto = require('crypto');
 
 const generateRandomPassword = (length, includeSymbols, includeDigits, includeLowercase, includeUppercase) => {
-    let distributions = getCountDistributions(length, includeSymbols, includeDigits, includeLowercase, includeUppercase);
-
+    const distributions = getCountDistributions(length, includeSymbols, includeDigits, includeLowercase, includeUppercase);
     let keyOfIncludedItems = Object.keys(distributions).filter(item => distributions[item].include);
     let password = "";
     while (password.length < length) {
@@ -60,6 +59,7 @@ const getCountDistributions = (length, includeSymbols, includeDigits, includeLow
 }
 
 const getRandomElementFromArray = (array) => {
+    console.log("crypto is, ", crypto);
     return array[crypto.randomInt(0, array.length)];
 }
 

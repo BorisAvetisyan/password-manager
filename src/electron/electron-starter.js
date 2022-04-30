@@ -1,9 +1,11 @@
 const electron = require('electron');
 const {
     PASSWORDS_DATA, NEW_WEBSITE, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
-    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, PASSWORD_DECRYPTED, PASSWORD_DECRYPT
+    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, PASSWORD_DECRYPTED, PASSWORD_DECRYPT, GENERATE_RANDOM_PASSWORD,
+    GENERATED_RANDOM_PASSWORD
 } = require("./constants");
 const PasswordManager = require("./models/PasswordManager");
+const {generateRandomPassword} = require("./models/PasswordGenerator");
 const {ipcMain} = electron;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -77,6 +79,11 @@ ipcMain.on(PASSWORD_DECRYPT, (event, data) => {
     const result = PasswordManager.decryptPassword(data.item, data.masterPassword);
     console.log("result, ", result);
     mainWindow.webContents.send(result.event, result.eventValue);
+})
+
+ipcMain.on(GENERATE_RANDOM_PASSWORD, (event, data) => {
+    const generatedPassword = generateRandomPassword(data.length, data.includeSymbols, data.includeDigits, data.includeLowercase, data.includeUppercase);
+    mainWindow.webContents.send(GENERATED_RANDOM_PASSWORD, generatedPassword);
 })
 
 function emitPasswordsData() {

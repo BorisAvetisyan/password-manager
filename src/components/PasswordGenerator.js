@@ -1,101 +1,46 @@
-import React from "react";
+import React, {useState} from "react";
 import {HelperIcon} from "../media/SVG";
-import NumericInput from "./common/NumericInput";
+import RandomPasswordGenerator from "./RandomPasswordGenerator";
+import GivenWordsPasswordGenerator from "./GivenWordsPasswordGenerator";
 
 function PasswordGenerator() {
+    const [showRandomPasswordGenerator, setShowRandomPasswordGenerator] = useState(false);
+    const [showGivenWordsPasswordGenerator, setShowGivenWordsPasswordGenerator] = useState(false);
+
+    const onRandomPasswordGeneratorClick = () => {
+        setShowRandomPasswordGenerator(true);
+        setShowGivenWordsPasswordGenerator(false);
+    }
+
+    const onGivenWordsPasswordGeneratorClick = () => {
+        setShowRandomPasswordGenerator(false);
+        setShowGivenWordsPasswordGenerator(true);
+    }
+
     return(
         <div className="container-fluid password-generator-container mt-4">
             <div className="row">
                 <div className="col-6">
                     <div className="left-generator">
-                        <div className="given-words-info-block text-center">
+                        <div className="given-words-info-block text-center cursor-pointer" onClick={onGivenWordsPasswordGeneratorClick} >
                             <p className="header">ABC</p>
                             <p className="description">Random password based on given words</p>
                             <p className="guide">Enter comma seperated words and get a password</p>
                         </div>
 
-                        <div className="length-block-container mt-5">
-                            <div className="length-block d-flex align-items-center justify-content-around">
-                                Length :
-                                <NumericInput />
-                            </div>
-
-                        </div>
-
-                        <div className="input-block mt-5">
-                            <input type="text" className="form-control" placeholder="Enter here..." />
-                        </div>
-
-                        <div className="generate-block mt-3">
-                            <button className="btn btn-default btn-black w-100">Generate</button>
-                        </div>
-
-                        <div className="text-center mt-3">
-                            <span className="generated-value">F%(Q#L%ao</span>
-                        </div>
-
-                        <div className="actions-block d-flex justify-content-center mt-3">
-                            <button className="btn btn-black">
-                                <span className="action-text f-11">Reset</span>
-                            </button>
-                            <button className="btn btn-black">
-                                <span className="action-text f-11">
-                                    Copy
-                                </span>
-                            </button>
-                            <button className="btn btn-black">
-                                <span className="action-text f-11">
-                                    Add to Password Manager
-                                </span>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div className="col-6">
-                    <div className="right-generator">
-                        <div className="random-password-generator-block text-center">
+                        <div className="random-password-generator-block text-center mt-3 cursor-pointer" onClick={onRandomPasswordGeneratorClick} >
                             <p>{ HelperIcon }</p>
                             <p className="description">Random Password generator</p>
                             <p className="guide">Select from checkbox requirements for random password:</p>
                         </div>
 
-                        <div className="length-block-container mt-5">
-                            <div className="length-block d-flex align-items-center justify-content-around">
-                                Length :
-                                <NumericInput />
-                            </div>
-                        </div>
-
-                        <div className="input-block mt-5">
-                            <input type="text" className="form-control" placeholder="Enter here..." />
-                        </div>
-
-                        <div className="generate-block mt-3">
-                            <button className="btn btn-default btn-black w-100">Generate</button>
-                        </div>
-
-                        <div className="text-center mt-3">
-                            <span className="generated-value">F%(Q#L%ao</span>
-                        </div>
-
-                        <div className="actions-block d-flex justify-content-center mt-3">
-                            <button className="btn btn-black">
-                                <span className="action-text f-11">Reset</span>
-                            </button>
-                            <button className="btn btn-black">
-                                <span className="action-text f-11">
-                                    Copy
-                                </span>
-                            </button>
-                            <button className="btn btn-black">
-                                <span className="action-text f-11">
-                                    Add to Password Manager
-                                </span>
-                            </button>
-                        </div>
                     </div>
+                </div>
+                <div className="col-6">
+
+                    { showRandomPasswordGenerator && <RandomPasswordGenerator /> }
+                    { showGivenWordsPasswordGenerator && <GivenWordsPasswordGenerator /> }
+
                 </div>
             </div>
         </div>

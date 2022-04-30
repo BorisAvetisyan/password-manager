@@ -1,12 +1,13 @@
 import React, { memo, useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "../../media/SVG";
 
-function NumericInput() {
+function NumericInput({ handleChange }) {
 
     const [value, setValue] = useState(0)
 
     const onChange = (e) => {
       setValue(e.target.value);
+      handleChange && handleChange(e.target.value)
     }
 
     return(
