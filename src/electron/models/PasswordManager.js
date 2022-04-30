@@ -1,4 +1,4 @@
-const {CHECKED_MASTER_PASSWORD, FAILED_TO_ADD_NEW_PASSWORD, MASTER_PASSWORD_FILE_PATH, PASSWORDS_FILE_PATH, NEW_PASSWORD_ADDED} = require("../constants");
+const {CHECKED_MASTER_PASSWORD, FAILED_TO_ADD_NEW_PASSWORD, MASTER_PASSWORD_FILE_PATH, PASSWORDS_FILE_PATH, NEW_PASSWORD_ADDED, PASSWORD_DECRYPTED} = require("../constants");
 const PasswordItem = require("./PasswordItem");
 const {encrypt, decrypt} = require("../crypto/EncryptionUtils");
 const {v4: uuidv4} = require("uuid");
@@ -55,6 +55,22 @@ class PasswordManager {
                 event: FAILED_TO_ADD_NEW_PASSWORD
             };
         }
+    }
+
+    static decryptPassword(item, masterPassword) {
+        if (!this.checkMasterPassword(masterPassword)) {
+            return {
+                success: false,
+                event: CHECKED_MASTER_PASSWORD,
+                eventValue: false
+            };
+        }
+        let plaintext = decrypt(item.password, masterPassword);
+        return {
+            success: true,
+            event: PASSWORD_DECRYPTED,
+            eventValue: plaintext
+        };
     }
 
     static hasMasterPassword() {
