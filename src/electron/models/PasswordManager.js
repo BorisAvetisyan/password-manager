@@ -29,12 +29,16 @@ class PasswordManager {
     }
 
     static addPasswordData(data, masterPassword) {
-        if (!this.hasMasterPassword()) {
-            return {
-                success: false,
-                event: CHECKED_MASTER_PASSWORD,
-                eventValue: false
-            };
+        if (this.hasMasterPassword()) {
+            if (!this.checkMasterPassword(masterPassword)) {
+                return {
+                    success: false,
+                    event: CHECKED_MASTER_PASSWORD,
+                    eventValue: false
+                };
+            }
+        } else {
+            this.setMasterPassword(masterPassword);
         }
 
         const encryptedPassword = encrypt(data.password, masterPassword);
