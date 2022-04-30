@@ -63,8 +63,4 @@ const getRandomElementFromArray = (array) => {
     return array[crypto.randomInt(0, array.length)];
 }
 
-for (let i = 0; i < 10; i++) {
-    console.log(generateRandomPassword(15, true, true, false, false));
-}
-
 module.exports = { generateRandomPassword, generatePassword };

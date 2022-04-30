@@ -193,18 +193,4 @@ const createEmptyMatrix = (rows, columns) => {
     return result;
 };
 
-let key = "abcdefghabcdefgh";
-let text = "1234567812345671";
-// let result = encrypt(text, key);
-// console.log(result);
-// decrypt(result, key);
-
-const crypto = require('crypto-js');
-let ciphertext = crypto.AES.encrypt(text, key).toString();
-console.log(ciphertext);
-
-let bytes = crypto.AES.decrypt(ciphertext, key);
-let plaintext = bytes.toString(crypto.enc.Utf8);
-console.log(plaintext)
-
 module.exports = {encrypt, decrypt};

@@ -1,13 +1,10 @@
 const electron = require('electron');
-const fs = require('fs');
-const moment = require("moment");
-const { v4: uuidv4 } = require('uuid');
-const {processCSVString, hasMasterPassword, insertData} = require("./utils");
-const {PASSWORDS_DATA, NEW_WEBSITE, EMPTY_MASTER_PASSWORD, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
-    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, NEW_PASSWORD_ADDED, MASTER_PASSWORD_FILE_PATH, PASSWORDS_FILE_PATH
+const {
+    PASSWORDS_DATA, NEW_WEBSITE, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
+    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD
 } = require("./constants");
 const PasswordManager = require("./models/PasswordManager");
-const { ipcMain } = electron;
+const {ipcMain} = electron;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
@@ -20,7 +17,7 @@ function createWindow() {
         height: 700,
         webPreferences: {
             nodeIntegration: true,
-            enableRemoteModule:true,
+            enableRemoteModule: true,
             contextIsolation: false
         }
     });
@@ -54,47 +51,28 @@ app.on('activate', function () {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
-        createWindow()
+        createWindow();
     }
 });
 
 ipcMain.on(NEW_WEBSITE, (event, data) => {
-    // TODO encrypt website password
-    const insertedData = [uuidv4(), data.url, data.name, data.password, moment().unix(), moment().unix()]
-    if(hasMasterPassword()) {
-        insertData(insertedData, () => {
-            emitPasswordsData();
-            const instanceObject = new PasswordManager(insertedData);
-            mainWindow.webContents.send(NEW_PASSWORD_ADDED, instanceObject)
-        })
-    } else {
-        mainWindow.webContents.send(EMPTY_MASTER_PASSWORD)
+    let result = PasswordManager.addPasswordData(data, data.masterPassword);
+    if (result.success) {
+        emitPasswordsData();
     }
+    mainWindow.webContents.send(result.event, result.eventValue);
 })
 
 ipcMain.on(NEW_MASTER_PASSWORD, (event, newPassword) => {
-    // TODO encrypt master password
-    fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, newPassword);
-    mainWindow.webContents.send(NEW_MASTER_PASSWORD_SAVED)
+    PasswordManager.setMasterPassword(newPassword);
+    mainWindow.webContents.send(NEW_MASTER_PASSWORD_SAVED);
 })
 
 ipcMain.on(CHECK_MASTER_PASSWORD, (event, data) => {
-    // todo encrypt master password to check
-    const masterPassword = fs.readFileSync(MASTER_PASSWORD_FILE_PATH, "utf-8");
-    mainWindow.webContents.send(CHECKED_MASTER_PASSWORD, data === masterPassword);
+    mainWindow.webContents.send(CHECKED_MASTER_PASSWORD, PasswordManager.checkMasterPassword(data));
 })
 
 function emitPasswordsData() {
-    if(!fs.existsSync(PASSWORDS_FILE_PATH)) {
-        mainWindow.webContents.send(PASSWORDS_DATA, []);
-        return;
-    }
-    fs.readFile(PASSWORDS_FILE_PATH, "utf-8", (err, csvString) => {
-        if (err) {
-            console.error(err);
-        } else {
-            const rows = processCSVString(csvString);
-            mainWindow.webContents.send(PASSWORDS_DATA, rows)
-        }
-    });
+    let passwords = PasswordManager.getSavedPasswords();
+    mainWindow.webContents.send(PASSWORDS_DATA, passwords);
 }
