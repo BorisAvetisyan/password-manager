@@ -1,13 +1,14 @@
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useRef, useState} from "react";
 import zxcvbn from "zxcvbn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function PasswordInput({ handleChange = () => {}, placeHolder }) {
 
     const [score, setScore] = useState(0);
     const [value, setValue] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const passwordInput = useRef();
 
     const onChange = (e) => {
         handleChange(e);
@@ -15,6 +16,12 @@ function PasswordInput({ handleChange = () => {}, placeHolder }) {
         const passwordInfo = zxcvbn(value, [])
         setScore(passwordInfo.score);
         setValue(e.target.value);
+    }
+
+    const onShowClick = () => {
+        const currentType = passwordInput.current.type;
+        passwordInput.current.type = currentType === 'text' ? 'password' : 'text';
+        setShowPassword(!showPassword);
     }
 
     const memoizedScoreText = useMemo(() => {
@@ -36,14 +43,15 @@ function PasswordInput({ handleChange = () => {}, placeHolder }) {
             <label htmlFor="password">Password</label>
             <div className="input-group">
                 <input
+                    ref={passwordInput}
                     value={value}
                     onChange={(e) => onChange(e) }
                     type="password" className="form-control" id="password"
                     aria-describedby="password" placeholder={placeHolder || "Enter Website Password"} />
                 <div className="input-group-append">
-                <span className="input-group-text" id="password">
+                <span className="input-group-text cursor-pointer" id="password" onClick={onShowClick}>
                     {
-                        showPassword ? <FontAwesomeIcon icon={faEye} /> : ''
+                        showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />
                     }
                 </span>
                 </div>
