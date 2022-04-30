@@ -2,13 +2,12 @@ import {useEffect, useState} from "react";
 import {useHistory} from "react-router";
 import {EditIcon, ShowPasswordIcon} from "../media/SVG";
 import moment from "moment";
-import MasterPasswordModal from "./MasterPasswordModal";
 import WebsiteIcon from "./common/WebsiteIcon";
+import MasterPasswordConfirmationModal from "./modals/MasterPasswordConfirmationModal";
 
 function PasswordInfo() {
     const [passwordItem, setPasswordItem] = useState(null);
     const history = useHistory();
-    const [showPassword, setShowPassword] = useState(false);
     const [decryptedPassword, setDecryptedPassword] = useState('');
     const [showMasterPasswordModal, setShowMasterPasswordModal] = useState(false);
     const {state} = history.location;
@@ -19,7 +18,6 @@ function PasswordInfo() {
 
     const handleCloseMasterPassword = (password) => {
         setShowMasterPasswordModal(false);
-        setShowPassword(!!password);
         setDecryptedPassword(password);
     }
 
@@ -39,14 +37,14 @@ function PasswordInfo() {
                                 <span className="info-field-title">name</span> {passwordItem.name}
                             </li>
                             <li className="info-field">
-                                <span className="info-field-title">password:</span> <br />{showPassword ? decryptedPassword : '•••••••••••••'}
-                                {!showPassword ?
+                                <span className="info-field-title">password:</span> <br />{decryptedPassword ? decryptedPassword : '•••••••••••••'}
+                                {!decryptedPassword ?
 
                                     <span className="show-password-icon" onClick={() => setShowMasterPasswordModal(true)} >
                                         { ShowPasswordIcon }
                                     </span>
                                     :
-                                    <span className="edit-password-icon" onClick={() => setShowPassword(false)}>
+                                    <span className="edit-password-icon" onClick={() => setDecryptedPassword('')}>
                                         { EditIcon }
                                     </span>
                                 }
@@ -71,7 +69,10 @@ function PasswordInfo() {
                 </div>
             }
 
-            {showMasterPasswordModal && <MasterPasswordModal passwordItem={passwordItem} handleClose={handleCloseMasterPassword}/>}
+            {showMasterPasswordModal &&
+                <MasterPasswordConfirmationModal
+                    passwordItem={passwordItem}
+                    handleClose={handleCloseMasterPassword}/>}
 
         </div>
     )

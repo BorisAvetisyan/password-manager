@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import ListBlock from "./list/ListBlock";
 import {EMPTY_MASTER_PASSWORD, NEW_PASSWORD_ADDED, NEW_WEBSITE, ROUTES} from "../utils/constants";
-import MasterPasswordModal from "./MasterPasswordModal";
 import {useHistory} from "react-router";
 import PasswordInput from "./common/PasswordInput";
+import NewWebsiteMasterPasswordModal from "./modals/NewWebsiteMasterPasswordModal";
 
 const electron = window.require('electron');
 
 function NewWebsite() {
-    const [form, setForm] = useState({
+    const [formData, setFormData] = useState({
         url: '',
         name: '',
         password: '',
@@ -21,7 +21,7 @@ function NewWebsite() {
                 setShowMasterPasswordModal(true);
             })
             .on(NEW_PASSWORD_ADDED, (event, item) => {
-                setForm({ url: "", name: "", password: "" })
+                setFormData({ url: "", name: "", password: "" })
                 history.push({
                     pathname: ROUTES.MANAGER,
                     state: { item }
@@ -30,25 +30,11 @@ function NewWebsite() {
     }, [history])
 
     const handleChange = (type, e) => {
-        setForm({...form, ...{ [type]: e.target.value } })
+        setFormData({...formData, ...{ [type]: e.target.value } })
     }
 
-    const handleCloseMasterPasswordModal = (masterPassword) => {
-        if(!masterPassword) {
-            setShowMasterPasswordModal(false);
-            return;
-        }
-        form.masterPassword = masterPassword;
-        setShowMasterPasswordModal(false);
-        save();
-    }
-
-    const save = () => {
-        if(!form.url.length || !form.name.length || !form.password.length || !form.masterPassword.length) {
-            return;
-        }
-        form.url = 'https://' + form.url;
-        electron.ipcRenderer.send(NEW_WEBSITE, form);
+    const isDisabled = () => {
+      return !formData.url.length || !formData.name.length || !formData.password.length;
     }
 
     return(
@@ -58,7 +44,7 @@ function NewWebsite() {
                 <div className="new-website-form-block">
                     <form>
                         <div className="form-group">
-                            <label htmlFor="url">Website URL</label>
+                            <label htmlFor="url">Website URL*</label>
                             <input
                                 onChange={(e) => handleChange('url', e) }
                                 type="text" className="form-control" id="url"
@@ -67,7 +53,7 @@ function NewWebsite() {
 
 
                         <div className="form-group mt-1">
-                            <label htmlFor="name">Username</label>
+                            <label htmlFor="name">Username*</label>
                             <input
                                 onChange={(e) => handleChange('name', e) }
                                 type="text" className="form-control" id="name"
@@ -76,12 +62,12 @@ function NewWebsite() {
 
                         <PasswordInput handleChange={(e) => handleChange('password', e)} />
 
-                        <button onClick={() => setShowMasterPasswordModal(true)} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
+                        <button disabled={isDisabled()} onClick={() => setShowMasterPasswordModal(true)} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
                     </form>
                 </div>
             </div>
 
-            { showMasterPasswordModal && <MasterPasswordModal isNew handleClose={handleCloseMasterPasswordModal} /> }
+            { showMasterPasswordModal && <NewWebsiteMasterPasswordModal formData={formData} handleClose={() => setShowMasterPasswordModal(false) } /> }
 
         </div>
     )
