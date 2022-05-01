@@ -8,13 +8,18 @@ import NewWebsiteMasterPasswordModal from "./modals/NewWebsiteMasterPasswordModa
 const electron = window.require('electron');
 
 function NewWebsite() {
+    const history = useHistory();
+    const {state} = history.location;
     const [formData, setFormData] = useState({
         url: '',
         name: '',
-        password: '',
+        password: state?.generatedPassword || '',
     })
     const [showMasterPasswordModal, setShowMasterPasswordModal] = useState(false);
-    const history = useHistory();
+
+    useEffect(() => {
+        setFormData({...formData, password: state?.generatedPassword || ''})
+    }, [state])
 
     useEffect(() => {
         electron.ipcRenderer.on(EMPTY_MASTER_PASSWORD, () => {
@@ -60,7 +65,7 @@ function NewWebsite() {
                                 aria-describedby="emailHelp" placeholder="Enter Name" />
                         </div>
 
-                        <PasswordInput handleChange={(e) => handleChange('password', e)} />
+                        <PasswordInput defaultValue={formData.password} handleChange={(e) => handleChange('password', e)} />
 
                         <button disabled={isDisabled()} onClick={() => setShowMasterPasswordModal(true)} type="button" className="btn btn-default mt-2 btn-black w-100">Save</button>
                     </form>

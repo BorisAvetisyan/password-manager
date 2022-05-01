@@ -1,14 +1,19 @@
-import React, {useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState, memo} from "react";
 import zxcvbn from "zxcvbn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-function PasswordInput({ handleChange = () => {}, placeHolder }) {
+function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = '' }) {
 
     const [score, setScore] = useState(0);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(defaultValue);
     const [showPassword, setShowPassword] = useState(false);
     const passwordInput = useRef();
+
+    useEffect(() => {
+        const passwordInfo = zxcvbn(value, [])
+        setScore(passwordInfo.score);
+    }, [defaultValue])
 
     const onChange = (e) => {
         handleChange(e);
@@ -66,4 +71,4 @@ function PasswordInput({ handleChange = () => {}, placeHolder }) {
     )
 }
 
-export default PasswordInput;
+export default memo(PasswordInput);

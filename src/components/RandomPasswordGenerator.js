@@ -1,11 +1,13 @@
 import NumericInput from "./common/NumericInput";
 import {useEffect, useState} from "react";
-import {GENERATE_RANDOM_PASSWORD, GENERATED_RANDOM_PASSWORD} from "../utils/constants";
+import {GENERATE_RANDOM_PASSWORD, GENERATED_RANDOM_PASSWORD, ROUTES} from "../utils/constants";
+import {useHistory} from "react-router";
 
 const electron = window.require('electron');
 
 function RandomPasswordGenerator() {
     const [generatedPassword, setGeneratedPassword] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
         electron.ipcRenderer.on(GENERATED_RANDOM_PASSWORD, (event, payload) => {
@@ -29,36 +31,57 @@ function RandomPasswordGenerator() {
         electron.ipcRenderer.send(GENERATE_RANDOM_PASSWORD, form);
     }
 
+    const reset = () => {
+        setForm({
+            length: 0,
+            includeSymbols: false,
+            includeDigits: false,
+            includeLowercase: false,
+            includeUppercase: false
+        })
+    }
+
+    const copy = () => {
+      navigator.clipboard.writeText(generatedPassword)
+    }
+    
+    const addToPasswordManager = () => {
+        history.push({
+            pathname: ROUTES.NEW_WEBSITE,
+            state: { generatedPassword }
+        })
+    }
+
     return(<div className="random-password-generator-container">
             <div className="length-block-container mt-5">
                 <div className="length-block d-flex align-items-center justify-content-around">
                     Length :
-                    <NumericInput handleChange={(value) =>  setForm({...form, length: value}) }  />
+                    <NumericInput defaultValue={form.length} handleChange={(value) =>  setForm({...form, length: value}) }  />
                 </div>
 
             </div>
 
             <div className="">
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="symbols-checkbox" onChange={() => onCheckboxChange('includeSymbols') } />
+                    <input checked={form.includeSymbols} className="form-check-input" type="checkbox" value="" id="symbols-checkbox" onChange={() => onCheckboxChange('includeSymbols') } />
                     <label className="form-check-label" htmlFor="symbols-checkbox">
                         Symbols
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="numbers-checkbox" onChange={() => onCheckboxChange('includeDigits') } />
+                    <input checked={form.includeDigits}  className="form-check-input" type="checkbox" value="" id="numbers-checkbox" onChange={() => onCheckboxChange('includeDigits') } />
                     <label className="form-check-label" htmlFor="numbers-checkbox">
                         Numbers
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="uppercase-checkbox" onChange={() => onCheckboxChange('includeUppercase') } />
+                    <input checked={form.includeUppercase} className="form-check-input" type="checkbox" value="" id="uppercase-checkbox" onChange={() => onCheckboxChange('includeUppercase') } />
                     <label className="form-check-label" htmlFor="uppercase-checkbox">
                         Uppercase
                     </label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="" id="lowercase-checkbox" onChange={() => onCheckboxChange('includeLowercase') } />
+                    <input checked={form.includeLowercase} className="form-check-input" type="checkbox" value="" id="lowercase-checkbox" onChange={() => onCheckboxChange('includeLowercase') } />
                     <label className="form-check-label" htmlFor="lowercase-checkbox">
                         Lowercase
                     </label>
@@ -74,18 +97,18 @@ function RandomPasswordGenerator() {
             </div>
 
             <div className="actions-block d-flex justify-content-center mt-3">
-                <button className="btn btn-black">
+                <button className="btn btn-black" onClick={reset}>
                     <span className="action-text f-11">Reset</span>
                 </button>
-                <button className="btn btn-black">
-            <span className="action-text f-11">
-                Copy
-            </span>
+                <button className="btn btn-black" onClick={copy}>
+                    <span className="action-text f-11">
+                        Copy
+                    </span>
                 </button>
-                <button className="btn btn-black">
-            <span className="action-text f-11">
-                Add to Password Manager
-            </span>
+                <button className="btn btn-black" onClick={addToPasswordManager}>
+                    <span className="action-text f-11">
+                        Add to Password Manager
+                    </span>
                 </button>
             </div>
         </div>
