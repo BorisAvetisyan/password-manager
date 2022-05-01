@@ -27,7 +27,7 @@ class PasswordManager {
 
     static getSavedPasswords() {
         try {
-            let data = fs.readFileSync(PASSWORDS_FILE_PATH, 'utf-8');
+            const data = fs.readFileSync(PASSWORDS_FILE_PATH, 'utf-8');
             return this.processCSVString(data);
         } catch (e) {
             return [];
@@ -36,9 +36,7 @@ class PasswordManager {
 
     static addPasswordData(data, masterPassword) {
         if (this.hasMasterPassword()) {
-            console.log("has master password")
             if (!this.checkMasterPassword(masterPassword)) {
-                console.log("wrong master password")
                 return {
                     success: false,
                     event: CHECKED_MASTER_PASSWORD,
@@ -46,22 +44,18 @@ class PasswordManager {
                 };
             }
         } else {
-            console.log("set master password")
             this.setMasterPassword(masterPassword);
         }
 
         const encryptedPassword = encrypt(data.password, masterPassword);
         const insertedData = [uuidv4(), data.url, data.name, encryptedPassword, moment().unix(), moment().unix()];
         try {
-            console.log("before insert")
             this.insertData(insertedData);
-            console.log("after insert")
             return {
                 success: true,
                 event: NEW_PASSWORD_ADDED
             };
         } catch (e) {
-            console.log("error, ", e);
             return {
                 success: false,
                 event: FAILED_TO_ADD_NEW_PASSWORD
@@ -97,9 +91,9 @@ class PasswordManager {
     static processCSVString(csvString) {
         const data = csvString.split('\n');
         const result = [];
-        for (let i = 1; i < data.length; i++) {
-            result.push(new PasswordItem(data[i].split(',')))
-        }
+        data.forEach(item => {
+            result.push(new PasswordItem(item.split(',')))
+        })
         return result;
     }
 

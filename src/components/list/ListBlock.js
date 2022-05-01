@@ -27,7 +27,6 @@ function ListBlock() {
             if(data.length) {
                 dispatch(savePasswordsData(data))
             } else {
-                console.log("push into history")
                 history.push(ROUTES.NEW_WEBSITE)
             }
         })

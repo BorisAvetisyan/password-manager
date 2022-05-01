@@ -58,11 +58,8 @@ app.on('activate', function () {
 });
 
 ipcMain.on(NEW_WEBSITE, (event, data) => {
-    console.log("data, ", data);
-    let result = PasswordManager.addPasswordData(data, data.masterPassword);
-    if (result.success) {
-        emitPasswordsData();
-    }
+    const result = PasswordManager.addPasswordData(data, data.masterPassword);
+    result.success && emitPasswordsData();
     mainWindow.webContents.send(result.event, result.eventValue);
 })
 
@@ -87,6 +84,6 @@ ipcMain.on(GENERATE_RANDOM_PASSWORD, (event, data) => {
 })
 
 function emitPasswordsData() {
-    let passwords = PasswordManager.getSavedPasswords();
+    const passwords = PasswordManager.getSavedPasswords();
     mainWindow.webContents.send(PASSWORDS_DATA, passwords);
 }

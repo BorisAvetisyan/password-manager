@@ -5,7 +5,7 @@ const encrypt = (plaintext, key) => {
 };
 
 const decrypt = (ciphertext, key) => {
-    let bytes = crypto.AES.decrypt(ciphertext, key);
+    const bytes = crypto.AES.decrypt(ciphertext, key);
     return  bytes.toString(crypto.enc.Utf8);
 };
 

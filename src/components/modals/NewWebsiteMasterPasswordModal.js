@@ -15,11 +15,9 @@ function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
     useEffect(() => {
         electron.ipcRenderer
             .on(NEW_MASTER_PASSWORD_SAVED, () => {
-                console.log("NEW_MASTER_PASSWORD_SAVED ");
                 handleClose();
             })
             .on(CHECKED_MASTER_PASSWORD, (event, passedCredential) => {
-                console.log("CHECKED_MASTER_PASSWORD, ", passedCredential);
                 if(!passedCredential) {
                     setError("Wrong input");
                     return;
