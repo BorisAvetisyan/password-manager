@@ -20,20 +20,6 @@ export const HomeIcon = <svg width="32" height="32" viewBox="0 0 32 32" fill="no
     <path d="M20 29H12V23C12 20.791 13.791 19 16 19C18.209 19 20 20.791 20 23V29Z" stroke="black" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
 
-export const ShowPasswordIcon = <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8.49992 2.8125C4.95825 2.8125 1.93367 4.75625 0.708252 7.5C1.93367 10.2438 4.95825 12.1875 8.49992 12.1875C12.0416 12.1875 15.0662 10.2438 16.2916 7.5C15.0662 4.75625 12.0416 2.8125 8.49992 2.8125ZM8.49992 10.625C6.54492 10.625 4.95825 9.225 4.95825 7.5C4.95825 5.775 6.54492 4.375 8.49992 4.375C10.4549 4.375 12.0416 5.775 12.0416 7.5C12.0416 9.225 10.4549 10.625 8.49992 10.625ZM8.49992 5.625C7.32409 5.625 6.37492 6.4625 6.37492 7.5C6.37492 8.5375 7.32409 9.375 8.49992 9.375C9.67575 9.375 10.6249 8.5375 10.6249 7.5C10.6249 6.4625 9.67575 5.625 8.49992 5.625Z" fill="black"/>
-</svg>
-
-export const EditIcon = <svg width="19" height="29" viewBox="0 0 19 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-    <rect width="19" height="29" fill="url(#pattern0)"/>
-    <defs>
-        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-            <use xlinkHref="#image0_75_11316" transform="translate(0 0.172414) scale(0.0104167 0.00682471)"/>
-        </pattern>
-        <image id="image0_75_11316" width="96" height="96" xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAABtklEQVR4nO3aMU7DMBiG4Q9YGOAM3IOJQyCuwtgsSByJBQkheoQepBNjGaBShQKJ7d/+6uZ9JI+NnPdvmrSqBAAAAAA49CBpLWkraSPpSdKldUcLspK0G1nvkq6M+1qEQePx92st6dq2uxM3FZ8hVDQ3PkOoIDU+QwiUG58hBCiNXzSE8+Lt9+8z6Di3kl7ElZDlUTFXAR9HBRjCEYi6H+y/MU/+bHERfQade5N0Juku4Fg3+u77GnCsxYn6ONq03vixGn5W6mtKB7AN2Hv3DkO2HsJH+fb7Nhaw5RDui8+gY/+FazGEVfEZdGxOsOfEY6bcmIk/c9UYAvETV+QQiJ+5IoZA/MJVMgTiB62cp6PU15yUyPi5V8Ji1YjPEGaqGZ8hTGgRnyH8oWV8hvCLI371IfTyr4hB3mftqH9OdMn5zt+JL1nEdyG+EfGNiG9EfCPiGxHfiPhGxDcivhHxjYhvRHwj4hsR34j4RsQ3Ir4R8Y2Ib0R8I+IbEd+I+EbENyK+EfGNiG9GfDPimxHfjPhmxDcjvhnxzYhvRnwz4psR34z4ZsQ3I74Z8c2IDwAAAAAAAGT4AmWLJrfB4zyeAAAAAElFTkSuQmCC"/>
-    </defs>
-</svg>
-
 export const AddNewButton = <svg width="75" height="75" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
     <rect width="96" height="96" fill="url(#pattern0)"/>
     <defs>

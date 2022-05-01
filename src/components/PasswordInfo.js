@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router";
-import {EditIcon, ShowPasswordIcon} from "../media/SVG";
 import moment from "moment";
 import WebsiteIcon from "./common/WebsiteIcon";
 import MasterPasswordConfirmationModal from "./modals/MasterPasswordConfirmationModal";
+import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function PasswordInfo() {
     const [passwordItem, setPasswordItem] = useState(null);
@@ -18,7 +19,7 @@ function PasswordInfo() {
 
     const handleCloseMasterPassword = (password) => {
         setShowMasterPasswordModal(false);
-        setDecryptedPassword(password);
+        setDecryptedPassword(password || '');
     }
 
     return (
@@ -41,11 +42,11 @@ function PasswordInfo() {
                                 {!decryptedPassword ?
 
                                     <span className="show-password-icon" onClick={() => setShowMasterPasswordModal(true)} >
-                                        { ShowPasswordIcon }
+                                        <FontAwesomeIcon icon={faEye} />
                                     </span>
                                     :
                                     <span className="edit-password-icon" onClick={() => setDecryptedPassword('')}>
-                                        { EditIcon }
+                                        <FontAwesomeIcon icon={faEyeSlash} />
                                     </span>
                                 }
                             </li>

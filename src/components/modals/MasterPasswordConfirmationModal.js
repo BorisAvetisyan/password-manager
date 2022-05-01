@@ -50,7 +50,7 @@ function MasterPasswordConfirmationModal({ passwordItem, handleClose }) {
             </Modal.Body>
 
             <Modal.Footer>
-                <button onClick={handleClose} className="btn btn-secondary">Close</button>
+                <button onClick={() => handleClose()} className="btn btn-secondary">Close</button>
                 <button className="btn btn-black" onClick={confirm}>Confirm</button>
             </Modal.Footer>
         </Modal>
