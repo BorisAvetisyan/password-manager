@@ -91,9 +91,9 @@ class PasswordManager {
     static processCSVString(csvString) {
         const data = csvString.split('\n');
         const result = [];
-        data.forEach(item => {
-            result.push(new PasswordItem(item.split(',')))
-        })
+        for (let i = 1; i < data.length; i++) {
+            result.push(new PasswordItem(data[i].split(',')))
+        }
         return result;
     }
 
