@@ -16,11 +16,11 @@ function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = ''
     }, [defaultValue])
 
     const onChange = (e) => {
-        handleChange(e);
         const value = e.target.value
         const passwordInfo = zxcvbn(value, [])
         setScore(passwordInfo.score);
         setValue(e.target.value);
+        handleChange(e, passwordInfo.score);
     }
 
     const onShowClick = () => {
@@ -53,7 +53,7 @@ function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = ''
                     onChange={(e) => onChange(e) }
                     type="password" className="form-control" id="password"
                     aria-describedby="password" placeholder={placeHolder || "Enter Website Password"} />
-                <div className="input-group-append">
+                <div className="input-group-append" style={{ width: "44px" }}>
                 <span className="input-group-text cursor-pointer" id="password" onClick={onShowClick}>
                     {
                         showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />

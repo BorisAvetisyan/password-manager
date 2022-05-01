@@ -8,6 +8,7 @@ const electron = window.require('electron');
 function RandomPasswordGenerator() {
     const [generatedPassword, setGeneratedPassword] = useState('');
     const history = useHistory();
+    const [error, setError] = useState('');
 
     useEffect(() => {
         electron.ipcRenderer.on(GENERATED_RANDOM_PASSWORD, (event, payload) => {
@@ -24,10 +25,16 @@ function RandomPasswordGenerator() {
     })
 
     const onCheckboxChange = (key) => {
+        error.length && setError('');
         setForm({...form, [key]: !form[key] })
     }
     
     const onGenerateClick = () => {
+        if(!form.includeDigits && !form.includeSymbols && !form.includeLowercase && !form.includeUppercase) {
+            setError("One of the options should be selected");
+            return;
+        }
+
         electron.ipcRenderer.send(GENERATE_RANDOM_PASSWORD, form);
     }
 
@@ -39,10 +46,11 @@ function RandomPasswordGenerator() {
             includeLowercase: false,
             includeUppercase: false
         })
+        setGeneratedPassword('');
     }
 
     const copy = () => {
-      navigator.clipboard.writeText(generatedPassword)
+        navigator.clipboard.writeText(generatedPassword)
     }
     
     const addToPasswordManager = () => {
@@ -53,6 +61,8 @@ function RandomPasswordGenerator() {
     }
 
     return(<div className="random-password-generator-container">
+            {error && <p className="invalid-text mt-3">{error}</p>}
+
             <div className="length-block-container mt-5">
                 <div className="length-block d-flex align-items-center justify-content-around">
                     Length :
@@ -89,7 +99,7 @@ function RandomPasswordGenerator() {
             </div>
 
             <div className="generate-block mt-5">
-                <button className="btn btn-default btn-black w-100" onClick={onGenerateClick}>Generate</button>
+                <button disabled={form.length === 0} className="btn btn-default btn-black w-100" onClick={onGenerateClick}>Generate</button>
             </div>
 
             <div className="text-center mt-3">
@@ -105,7 +115,7 @@ function RandomPasswordGenerator() {
                         Copy
                     </span>
                 </button>
-                <button className="btn btn-black" onClick={addToPasswordManager}>
+                <button className="btn btn-black" onClick={addToPasswordManager} disabled={!generatedPassword.length}>
                     <span className="action-text f-11">
                         Add to Password Manager
                     </span>
