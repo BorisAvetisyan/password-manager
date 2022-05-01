@@ -27,8 +27,8 @@ function PasswordChecker() {
     return (
         <div className="analyzer-container">
             <PasswordInput handleChange={handlePasswordInputChange} placeHolder={"Analyze your password"}/>
-            <div>
-                {imagePath && <img src={imagePath}/>}
+            <div className="text-center">
+                {imagePath && <img src={imagePath} style={{ width: "600px" }} />}
             </div>
         </div>
     )
