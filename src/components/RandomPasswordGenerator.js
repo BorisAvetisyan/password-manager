@@ -17,7 +17,7 @@ function RandomPasswordGenerator() {
     }, [])
 
     const [form, setForm] = useState({
-        length: 0,
+        length: 8,
         includeSymbols: false,
         includeDigits: false,
         includeLowercase: false,
@@ -66,7 +66,7 @@ function RandomPasswordGenerator() {
             <div className="length-block-container mt-5">
                 <div className="length-block d-flex align-items-center justify-content-around">
                     Length :
-                    <NumericInput defaultValue={form.length} handleChange={(value) =>  setForm({...form, length: value}) }  />
+                    <NumericInput min={8} defaultValue={form.length} handleChange={(value) =>  setForm({...form, length: value}) }  />
                 </div>
 
             </div>

@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "../../media/SVG";
 
-function NumericInput({ handleChange, defaultValue = 0 }) {
+function NumericInput({ handleChange, defaultValue = 0, min= 0}) {
 
     const [value, setValue] = useState(defaultValue)
 
@@ -25,7 +25,7 @@ function NumericInput({ handleChange, defaultValue = 0 }) {
             <div className="input-arrow-up text-center cursor-pointer" onClick={() => onArrowClick(value + 1) }>
                 { ArrowUpIcon }
             </div>
-            <div className="input-arrow-down text-center cursor-pointer" onClick={() => onArrowClick(value - 1 >= 0 ? value - 1 : 0) }>
+            <div className="input-arrow-down text-center cursor-pointer" onClick={() => onArrowClick(value - 1 >= min ? value - 1 : min) }>
                 { ArrowDownIcon }
             </div>
         </div>
