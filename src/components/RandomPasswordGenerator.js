@@ -71,8 +71,8 @@ function RandomPasswordGenerator() {
 
             </div>
 
-            <div className="">
-                <div className="form-check">
+            <div className="radio-buttons-container">
+                <div className="form-check mt-3">
                     <input checked={form.includeSymbols} className="form-check-input" type="checkbox" value="" id="symbols-checkbox" onChange={() => onCheckboxChange('includeSymbols') } />
                     <label className="form-check-label" htmlFor="symbols-checkbox">
                         Symbols
@@ -98,7 +98,7 @@ function RandomPasswordGenerator() {
                 </div>
             </div>
 
-            <div className="generate-block mt-5">
+            <div className="generate-block mt-4">
                 <button disabled={form.length === 0} className="btn btn-default btn-black w-100" onClick={onGenerateClick}>Generate</button>
             </div>
 
@@ -107,16 +107,16 @@ function RandomPasswordGenerator() {
             </div>
 
             <div className="actions-block d-flex justify-content-center mt-3">
-                <button className="btn btn-black" onClick={reset}>
-                    <span className="action-text f-11">Reset</span>
+                <button className="btn btn-black f-11" onClick={reset}>
+                    <span className="action-text">Reset</span>
                 </button>
-                <button className="btn btn-black" onClick={copy}>
-                    <span className="action-text f-11">
+                <button className="btn btn-black f-11" onClick={copy}>
+                    <span className="action-text">
                         Copy
                     </span>
                 </button>
-                <button className="btn btn-black" onClick={addToPasswordManager} disabled={!generatedPassword.length}>
-                    <span className="action-text f-11">
+                <button className="btn btn-black f-11 mr-0" onClick={addToPasswordManager} disabled={!generatedPassword.length}>
+                    <span className="action-text">
                         Add to Password Manager
                     </span>
                 </button>

@@ -302,9 +302,16 @@ input:focus {
 
 .actions-block {
   height: 30px;
-  button {
+  button:not(:last-child) {
     padding: 0 0.75rem !important;
     margin-right: 20px;
+  }
+}
+
+.radio-buttons-container {
+  .form-check {
+    width: 27%;
+    margin: auto;
   }
 }
 

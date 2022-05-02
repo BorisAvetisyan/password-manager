@@ -57,6 +57,7 @@ function GivenWordsPasswordGenerator() {
             length: 0,
             generatedWords: []
         })
+        setGeneratedPassword('')
     }
     
     const onAddPasswordManagerClick = () => {
@@ -95,16 +96,16 @@ function GivenWordsPasswordGenerator() {
                 </div>
 
                 <div className="actions-block d-flex justify-content-center mt-3">
-                    <button className="btn btn-black" onClick={reset}>
-                        <span className="action-text f-11">Reset</span>
+                    <button className="btn btn-black f-11" onClick={reset}>
+                        <span className="action-text">Reset</span>
                     </button>
-                    <button className="btn btn-black" onClick={copy}>
-                        <span className="action-text f-11">
+                    <button className="btn btn-black f-11" onClick={copy}>
+                        <span className="action-text">
                             Copy
                         </span>
                     </button>
-                    <button className="btn btn-black" disabled={!generatedPassword.length} onClick={onAddPasswordManagerClick}>
-                        <span className="action-text f-11">
+                    <button className="btn btn-black f-11" disabled={!generatedPassword.length} onClick={onAddPasswordManagerClick}>
+                        <span className="action-text">
                             Add to Password Manager
                         </span>
                     </button>

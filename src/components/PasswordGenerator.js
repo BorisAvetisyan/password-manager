@@ -28,7 +28,7 @@ function PasswordGenerator() {
                             <p className="guide">Enter comma seperated words and get a password</p>
                         </div>
 
-                        <div className="random-password-generator-block text-center mt-3 cursor-pointer" onClick={onRandomPasswordGeneratorClick} >
+                        <div className="random-password-generator-block text-center mt-5 cursor-pointer" onClick={onRandomPasswordGeneratorClick} >
                             <p>{ HelperIcon }</p>
                             <p className="description">Random Password generator</p>
                             <p className="guide">Select from checkbox requirements for random password:</p>
