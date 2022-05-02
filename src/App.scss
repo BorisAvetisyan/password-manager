@@ -348,6 +348,10 @@ input:focus {
     right: 3px;
     border-radius: 999px 0 0 0;
     transform: rotate(180deg);
+
+    svg {
+      transform: rotate(180deg);
+    }
   }
 
   /* Chrome, Safari, Edge, Opera */

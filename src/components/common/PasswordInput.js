@@ -1,21 +1,26 @@
-import React, {useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState, memo} from "react";
 import zxcvbn from "zxcvbn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-function PasswordInput({ handleChange = () => {}, placeHolder }) {
+function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = '' }) {
 
     const [score, setScore] = useState(0);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(defaultValue);
     const [showPassword, setShowPassword] = useState(false);
     const passwordInput = useRef();
 
+    useEffect(() => {
+        const passwordInfo = zxcvbn(value, [])
+        setScore(passwordInfo.score);
+    }, [defaultValue])
+
     const onChange = (e) => {
-        handleChange(e);
         const value = e.target.value
         const passwordInfo = zxcvbn(value, [])
         setScore(passwordInfo.score);
         setValue(e.target.value);
+        handleChange(e, passwordInfo.score);
     }
 
     const onShowClick = () => {
@@ -48,7 +53,7 @@ function PasswordInput({ handleChange = () => {}, placeHolder }) {
                     onChange={(e) => onChange(e) }
                     type="password" className="form-control" id="password"
                     aria-describedby="password" placeholder={placeHolder || "Enter Website Password"} />
-                <div className="input-group-append">
+                <div className="input-group-append" style={{ width: "44px" }}>
                 <span className="input-group-text cursor-pointer" id="password" onClick={onShowClick}>
                     {
                         showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />
@@ -66,4 +71,4 @@ function PasswordInput({ handleChange = () => {}, placeHolder }) {
     )
 }
 
-export default PasswordInput;
+export default memo(PasswordInput);
