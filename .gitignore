@@ -2,5 +2,6 @@
 /node_modules
 /coverage
 /build
-/src/database/master.txt
-/src/database/passwords.csv
+/public/electron/database/master.txt
+/public/electron/database/passwords.csv
+/dist

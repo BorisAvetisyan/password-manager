@@ -1,12 +1,12 @@
 const electron = require('electron');
 const {
     PASSWORDS_DATA, NEW_WEBSITE, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
-    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, PASSWORD_DECRYPTED, PASSWORD_DECRYPT, GENERATE_RANDOM_PASSWORD,
+    CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, PASSWORD_DECRYPT, GENERATE_RANDOM_PASSWORD,
     GENERATED_RANDOM_PASSWORD, GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS,
     GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS
-} = require("./constants");
-const PasswordManager = require("./models/PasswordManager");
-const {generateRandomPassword, generatePassword} = require("./models/PasswordGenerator");
+} = require("./electron/constants");
+const PasswordManager = require("./electron/models/PasswordManager");
+const {generateRandomPassword, generatePassword} = require("./electron/models/PasswordGenerator");
 const {ipcMain} = electron;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;

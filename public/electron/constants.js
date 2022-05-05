@@ -16,8 +16,11 @@ const GENERATED_RANDOM_PASSWORD = 'GENERATED_RANDOM_PASSWORD';
 const GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS = 'GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS';
 const GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS = 'GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS';
 
-const PASSWORDS_FILE_PATH = 'src/database/passwords.csv';
-const MASTER_PASSWORD_FILE_PATH = 'src/database/master.txt'
+const path = require('path');
+const root = path.dirname(require.main.filename);
+
+const PASSWORDS_FILE_PATH = root + '/electron/database/passwords.csv';
+const MASTER_PASSWORD_FILE_PATH = root + '/electron/database/master.txt'
 
 module.exports = {
     PASSWORDS_DATA,
