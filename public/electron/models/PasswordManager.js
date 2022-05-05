@@ -13,7 +13,7 @@ class PasswordManager {
             throw new Error("Master password is missing");
         }
         const ciphertext = encrypt(password, password);
-        fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, ciphertext);
+        fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, ciphertext, { flag: 'wx' } );
     }
 
     static checkMasterPassword(password) {

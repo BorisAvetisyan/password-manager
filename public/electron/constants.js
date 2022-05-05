@@ -16,11 +16,28 @@ const GENERATED_RANDOM_PASSWORD = 'GENERATED_RANDOM_PASSWORD';
 const GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS = 'GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS';
 const GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS = 'GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS';
 
-const path = require('path');
-const root = path.dirname(require.main.filename);
+const getAppDataPath = () => {
+    switch (process.platform) {
+        case "darwin": {
+            return path.join(process.env.HOME, "Library", "Application Support", "yourpasswordmanager");
+        }
+        case "win32": {
+            return path.join(process.env.APPDATA, "yourpasswordmanager");
+        }
+        case "linux": {
+            return path.join(process.env.HOME, ".yourpasswordmanager");
+        }
+        default: {
+            console.log("Unsupported platform!");
+            process.exit(1);
+        }
+    }
+}
 
-const PASSWORDS_FILE_PATH = root + '/electron/database/passwords.csv';
-const MASTER_PASSWORD_FILE_PATH = root + '/electron/database/master.txt'
+const path = require('path');
+
+const PASSWORDS_FILE_PATH = path.join(getAppDataPath(), 'passwords.csv');
+const MASTER_PASSWORD_FILE_PATH = path.join(getAppDataPath(), 'master.txt');
 
 module.exports = {
     PASSWORDS_DATA,

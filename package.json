@@ -1,6 +1,7 @@
 {
   "author": "CyberSecurity",
-  "name": "password-generator",
+  "name": "yourpasswordmanager",
+  "productName": "Your Password Manager",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -41,7 +42,11 @@
     "eject": "react-scripts eject",
     "electron": "electron .",
     "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && npm run electron \"",
-    "electron-pack": "npm run build --em.main=build/electron.js"
+    "electron-pack": "npm run build --em.main=build/electron.js",
+    "release": "npm run build && electron-builder",
+    "release:mac": "npm run build && electron-builder --mac",
+    "release:windows": "npm run build && electron-builder --win",
+    "release:linux": "npm run build && electron-builder --linux"
   },
   "homepage": "./",
   "eslintConfig": {
