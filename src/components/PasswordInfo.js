@@ -30,7 +30,7 @@ function PasswordInfo() {
                         <span className="website-icon">
                             <WebsiteIcon domain={passwordItem.url} />
                         </span>
-                        <span className="info-url">{passwordItem.url}</span>
+                        <span className="info-url"><a href={passwordItem.url} target="_blank" >{passwordItem.url}</a></span>
                     </div>
                     <div>
                         <ul className="info-ul mt-3">

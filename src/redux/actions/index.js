@@ -5,7 +5,7 @@ export const savePasswordsData = (payload) => {
 
     const map = {};
     payload.forEach(item => {
-        const firstCharacter = item.name.charAt(0);
+        const firstCharacter = item.name.charAt(0).toUpperCase();
         const data = map[firstCharacter];
         if(data === undefined) {
             map[firstCharacter] = [item];

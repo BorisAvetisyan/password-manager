@@ -39,10 +39,22 @@ function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
             setError("Missing required fields")
             return;
         }
+        if(!hasValidInputData(payload)) {
+            setError("Form data cannot contain the symbol `,`");
+            return;
+        }
+
         if(!payload.url.includes('https://')) {
             payload.url = 'https://' + payload.url;
         }
         electron.ipcRenderer.send(NEW_WEBSITE, payload);
+    }
+
+    const hasValidInputData = (payload) => {
+        return !payload.url.includes(',') &&
+            !payload.name.includes(",") &&
+            !payload.password.includes(",") &&
+            !payload.masterPassword.includes(",")
     }
 
     return(<Modal show onHide={handleClose}>

@@ -14,7 +14,7 @@ function GivenWordsPasswordGenerator() {
     const [generatedPassword, setGeneratedPassword] = useState('');
     const [form, setForm] = useState({
         generatedWords: [],
-        length: 0,
+        length: 8,
         wordsInput: ''
     })
     const history = useHistory();
@@ -77,7 +77,7 @@ function GivenWordsPasswordGenerator() {
                 <div className="length-block-container mt-5">
                     <div className="length-block d-flex align-items-center justify-content-around">
                         Length :
-                        <NumericInput handleChange={handleInputChange} defaultValue={form.length} />
+                        <NumericInput min={8} handleChange={handleInputChange} defaultValue={form.length} />
                     </div>
                 </div>
 
