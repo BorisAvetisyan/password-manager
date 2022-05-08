@@ -22,13 +22,13 @@ function PasswordGenerator() {
             <div className="row">
                 <div className="col-6">
                     <div className="left-generator">
-                        <div className="given-words-info-block text-center cursor-pointer" onClick={onGivenWordsPasswordGeneratorClick} >
+                        <div className={"given-words-info-block text-center cursor-pointer " + (showGivenWordsPasswordGenerator ? 'given-words-info-block-selected' : '') } onClick={onGivenWordsPasswordGeneratorClick} >
                             <p className="header">ABC</p>
                             <p className="description">Random password based on given words</p>
                             <p className="guide">Enter comma seperated words and get a password</p>
                         </div>
 
-                        <div className="random-password-generator-block text-center mt-5 cursor-pointer" onClick={onRandomPasswordGeneratorClick} >
+                        <div className={"random-password-generator-block text-center mt-5 cursor-pointer " + (showRandomPasswordGenerator ? 'random-password-generator-block-selected' : '')} onClick={onRandomPasswordGeneratorClick} >
                             <p>{ HelperIcon }</p>
                             <p className="description">Random Password generator</p>
                             <p className="guide">Select from checkbox requirements for random password:</p>

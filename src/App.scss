@@ -57,11 +57,11 @@ body {
   border: 0.5px solid #B0B0B0;
   border-radius: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  transition: 0.3s;
+  transition: 0.1s;
 }
 
 .menu-block:hover {
-  border: 0.5px solid #457B9D;
+  border: 1px solid #457B9D;
 }
 
 .list-block {
@@ -90,6 +90,10 @@ body {
       padding-left: 8px;
       .website-name {
         margin-left: 12px;
+      }
+      .remove-icon {
+        position: absolute;
+        right: 20px;
       }
     }
     .li-namespace {
@@ -137,6 +141,11 @@ body {
         font-size: 15px;
         color: #000000;
       }
+      .password-info-strength-block {
+        margin: 0;
+        font-size: 12px;
+        max-width: 150px;
+      }
       .show-password-icon, .edit-password-icon {
         cursor: pointer;
         margin-left: 24px;
@@ -152,12 +161,16 @@ body {
     margin: auto;
   }
 
+  .badge {
+    margin-right: 5px;
+  }
+
   .given-words-info-block, .random-password-generator-block {
     padding-top: 25px;
     width: 320px;
     height: 200px;
     box-sizing: border-box;
-    border: 1px solid #457B9D;
+    border: 0.25px solid #457B9D;
     box-shadow: 0 4px 20px rgba(168, 218, 220, 0.5);
     border-radius: 30px;
     .header {
@@ -178,6 +191,10 @@ body {
       letter-spacing: 0.0075em;
       color: #457B9D;
     }
+  }
+
+  .given-words-info-block-selected, .random-password-generator-block-selected {
+    border: 1.5px solid #457B9D;
   }
 }
 
@@ -390,4 +407,8 @@ input:focus {
 
 .invalid-text {
   color: red;
+}
+
+.ml-5 {
+  margin-left: 5px;
 }

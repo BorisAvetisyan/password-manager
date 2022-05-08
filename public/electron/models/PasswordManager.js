@@ -5,7 +5,7 @@ const {
     MASTER_PASSWORD_FILE_PATH,
     PASSWORDS_FILE_PATH,
     NEW_PASSWORD_ADDED,
-    PASSWORD_DECRYPTED
+    PASSWORD_DECRYPTED, PASSWORD_DELETED
 } = require("../constants");
 const PasswordItem = require("./PasswordItem");
 const {encrypt, decrypt} = require("../crypto/EncryptionUtils");
@@ -117,7 +117,7 @@ class PasswordManager {
             return {
                 success: false,
                 event: CHECKED_MASTER_PASSWORD,
-                eventValue: false
+                eventValue: null
             };
         }
 
@@ -131,7 +131,13 @@ class PasswordManager {
             // @todo maybe show an error
         } else {
             const updatedData = data.splice(requiredIndex, 1);
+            updatedData.unshift(fields);
             fs.writeFileSync(PASSWORDS_FILE_PATH, updatedData.join('\n'));
+            return {
+                success: true,
+                event: PASSWORD_DELETED,
+                eventValue: false
+            };
         }
     }
 

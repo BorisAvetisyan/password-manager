@@ -3,7 +3,7 @@ const {
     PASSWORDS_DATA, NEW_WEBSITE, NEW_MASTER_PASSWORD, NEW_MASTER_PASSWORD_SAVED,
     CHECK_MASTER_PASSWORD, CHECKED_MASTER_PASSWORD, PASSWORD_DECRYPT, GENERATE_RANDOM_PASSWORD,
     GENERATED_RANDOM_PASSWORD, GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS,
-    GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS
+    GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS, DELETE_PASSWORD_ITEM, UPDATE_PASSWORD_ITEM
 } = require("./electron/constants");
 const PasswordManager = require("./electron/models/PasswordManager");
 const {generateRandomPassword, generatePassword} = require("./electron/models/PasswordGenerator");
@@ -87,6 +87,18 @@ ipcMain.on(GENERATE_RANDOM_PASSWORD, (event, data) => {
 ipcMain.on(GENERATE_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS, (event, data) => {
     const generatedPassword = generatePassword(data);
     mainWindow.webContents.send(GENERATED_RANDOM_PASSWORD_BASED_ON_GIVEN_WORDS, generatedPassword);
+})
+
+ipcMain.on(DELETE_PASSWORD_ITEM, (event, payload) => {
+    const result = PasswordManager.deletePassword(payload.id, payload.masterPassword);
+    mainWindow.webContents.send(result.event, result.eventValue);
+    emitPasswordsData();
+})
+
+ipcMain.on(UPDATE_PASSWORD_ITEM, (event, payload) => {
+    const result = PasswordManager.updatePassword(payload.id, payload.newPassword, payload.masterPassword);
+    mainWindow.webContents.send(result.event, result.eventValue);
+    emitPasswordsData();
 })
 
 function emitPasswordsData() {

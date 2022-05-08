@@ -3,7 +3,14 @@ import zxcvbn from "zxcvbn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = '' }) {
+function PasswordInput({
+                           handleChange = () => {},
+                           placeHolder,
+                           defaultValue = '',
+                           label = true,
+                           error = '',
+                           onlyScore=false,
+                       }) {
 
     const [score, setScore] = useState(0);
     const [value, setValue] = useState(defaultValue);
@@ -43,9 +50,21 @@ function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = ''
         return scoreTextMap[score];
     }, [score, value])
 
-    return(
+    const strengthBlock = () => {
+        return <>
+            <div className={"strength-meter mt-2 " + (  value.length > 0 ? 'visible' : 'invisible' )}>
+                <div className="strength-meter-fill" data-strength={score}></div>
+            </div>
+            <div className="score-text" >
+                <span data-score={score} >{ memoizedScoreText }</span>
+            </div>
+        </>
+    }
+
+    return(!onlyScore ?
         <div className="form-group mt-1">
-            <label htmlFor="password">Password</label>
+            {label && <label htmlFor="password">Password</label>}
+            {error && <p className="invalid-text">{error}</p>}
             <div className="input-group">
                 <input
                     ref={passwordInput}
@@ -61,13 +80,8 @@ function PasswordInput({ handleChange = () => {}, placeHolder, defaultValue = ''
                 </span>
                 </div>
             </div>
-            <div className={"strength-meter mt-2 " + (  value.length > 0 ? 'visible' : 'invisible' )}>
-                <div className="strength-meter-fill" data-strength={score}></div>
-            </div>
-            <div className="score-text" >
-                <span data-score={score} >{ memoizedScoreText }</span>
-            </div>
-        </div>
+            { strengthBlock() }
+        </div> : strengthBlock()
     )
 }
 

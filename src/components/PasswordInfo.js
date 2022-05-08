@@ -5,6 +5,7 @@ import WebsiteIcon from "./common/WebsiteIcon";
 import MasterPasswordConfirmationModal from "./modals/MasterPasswordConfirmationModal";
 import {faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import PasswordInput from "./common/PasswordInput";
 
 function PasswordInfo() {
     const [passwordItem, setPasswordItem] = useState(null);
@@ -49,6 +50,9 @@ function PasswordInfo() {
                                         <FontAwesomeIcon icon={faEyeSlash} />
                                     </span>
                                 }
+                                {decryptedPassword && <p className="password-info-strength-block">
+                                    <PasswordInput onlyScore={true} defaultValue={decryptedPassword} />
+                                </p>}
                             </li>
 
                             <li className="info-field">

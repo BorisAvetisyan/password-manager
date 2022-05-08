@@ -40,7 +40,7 @@ function RandomPasswordGenerator() {
 
     const reset = () => {
         setForm({
-            length: 0,
+            length: 8,
             includeSymbols: false,
             includeDigits: false,
             includeLowercase: false,
@@ -58,6 +58,15 @@ function RandomPasswordGenerator() {
             pathname: ROUTES.NEW_WEBSITE,
             state: { generatedPassword }
         })
+    }
+
+    const isDisabled = () => {
+      return form.length < 8 || (
+          !form.includeSymbols &&
+          !form.includeDigits &&
+          !form.includeLowercase &&
+          !form.includeUppercase
+      )
     }
 
     return(<div className="random-password-generator-container">
@@ -99,14 +108,14 @@ function RandomPasswordGenerator() {
             </div>
 
             <div className="generate-block mt-4">
-                <button disabled={form.length === 0} className="btn btn-default btn-black w-100" onClick={onGenerateClick}>Generate</button>
+                <button disabled={isDisabled()} className="btn btn-default btn-black w-100" onClick={onGenerateClick}>Generate</button>
             </div>
 
             <div className="text-center mt-3">
                 <span className="generated-value">{generatedPassword}</span>
             </div>
 
-            <div className="actions-block d-flex justify-content-center mt-3">
+            { generatedPassword.length ? <div className="actions-block d-flex justify-content-center mt-3">
                 <button className="btn btn-black f-11" onClick={reset}>
                     <span className="action-text">Reset</span>
                 </button>
@@ -120,7 +129,8 @@ function RandomPasswordGenerator() {
                         Add to Password Manager
                     </span>
                 </button>
-            </div>
+            </div> : null }
+
         </div>
     )
 }

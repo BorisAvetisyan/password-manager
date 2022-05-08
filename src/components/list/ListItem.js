@@ -1,6 +1,8 @@
 import WebsiteIcon from "../common/WebsiteIcon";
+import {faRemove} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-function ListItem({ item, onListItemClick, isSelected }) {
+function ListItem({ item, onListItemClick, isSelected, handleRemove }) {
 
     return(
         <li  key={item.name} className={"list-item " + ( isSelected ? ' list-item-selected' : '')} onClick={() => onListItemClick(item)}>
@@ -9,6 +11,9 @@ function ListItem({ item, onListItemClick, isSelected }) {
             </span>
             <span className="website-name">
                 { item.name }
+            </span>
+            <span className="remove-icon" onClick={handleRemove}>
+               ` <FontAwesomeIcon icon={faRemove} />`
             </span>
         </li>
     )

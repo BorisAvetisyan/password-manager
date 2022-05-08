@@ -5,12 +5,15 @@ import {
     NEW_MASTER_PASSWORD_SAVED,
     NEW_WEBSITE,
 } from "../../utils/constants";
+import PasswordInput from "../common/PasswordInput";
+import zxcvbn from "zxcvbn";
 
 const electron = window.require('electron');
 
-function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
+function NewWebsiteMasterPasswordModal({handleClose, formData}) {
     const [error, setError] = useState('');
-    const [masterPassword, setMasterPassword] = useState('')
+    const [masterPassword, setMasterPassword] = useState('');
+    const [invalidPasswordWarning, setInvalidPasswordWarning] = useState('');
 
     useEffect(() => {
         electron.ipcRenderer
@@ -18,7 +21,7 @@ function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
                 handleClose();
             })
             .on(CHECKED_MASTER_PASSWORD, (event, passedCredential) => {
-                if(!passedCredential) {
+                if (!passedCredential) {
                     setError("Wrong input");
                     return;
                 }
@@ -27,24 +30,29 @@ function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
     }, [handleClose])
 
     const save = () => {
-        if(!masterPassword) {
+        if (!masterPassword) {
             setError("Master Password is required");
             return;
+        }
+        const passwordInfo = zxcvbn(masterPassword, [])
+        if (passwordInfo.score < 4) {
+            setInvalidPasswordWarning("Master password should be strong");
+           return;
         }
         const payload = {
             ...formData,
             masterPassword
         }
-        if(!payload.url.length || !payload.name.length || !payload.password.length || !payload.masterPassword.length) {
+        if (!payload.url.length || !payload.name.length || !payload.password.length || !payload.masterPassword.length) {
             setError("Missing required fields")
             return;
         }
-        if(!hasValidInputData(payload)) {
+        if (!hasValidInputData(payload)) {
             setError("Form data cannot contain the symbol `,`");
             return;
         }
 
-        if(!payload.url.includes('https://')) {
+        if (!payload.url.includes('https://')) {
             payload.url = 'https://' + payload.url;
         }
         electron.ipcRenderer.send(NEW_WEBSITE, payload);
@@ -57,7 +65,14 @@ function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
             !payload.masterPassword.includes(",")
     }
 
-    return(<Modal show onHide={handleClose}>
+    const handlePasswordInputChange = (e) => {
+        if (invalidPasswordWarning.length) {
+            setInvalidPasswordWarning('')
+        }
+        setMasterPassword(e.target.value)
+    }
+
+    return (<Modal show onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     Please enter your master password and press save
@@ -66,7 +81,8 @@ function NewWebsiteMasterPasswordModal({ handleClose, formData }) {
 
             <Modal.Body>
                 {error && <p className="invalid-text">{error}</p>}
-                <input className="form-control" placeholder="Password..." type="password" value={masterPassword} onChange={(e) => setMasterPassword(e.target.value)} />
+                <PasswordInput error={invalidPasswordWarning} label={false} defaultValue={masterPassword}
+                               handleChange={handlePasswordInputChange}/>
             </Modal.Body>
 
             <Modal.Footer>
