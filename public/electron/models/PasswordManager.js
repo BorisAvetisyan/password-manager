@@ -1,4 +1,12 @@
-const {CHECKED_MASTER_PASSWORD, FAILED_TO_ADD_NEW_PASSWORD, MASTER_PASSWORD_FILE_PATH, PASSWORDS_FILE_PATH, NEW_PASSWORD_ADDED, PASSWORD_DECRYPTED} = require("../constants");
+const {
+    EMPTY_MASTER_PASSWORD,
+    CHECKED_MASTER_PASSWORD,
+    FAILED_TO_ADD_NEW_PASSWORD,
+    MASTER_PASSWORD_FILE_PATH,
+    PASSWORDS_FILE_PATH,
+    NEW_PASSWORD_ADDED,
+    PASSWORD_DECRYPTED
+} = require("../constants");
 const PasswordItem = require("./PasswordItem");
 const {encrypt, decrypt} = require("../crypto/EncryptionUtils");
 const {v4: uuidv4} = require("uuid");
@@ -9,15 +17,15 @@ const fields = 'id,url,name,password,created_date,updated_date';
 
 class PasswordManager {
     static setMasterPassword(password) {
-        if(!password || !password.length) {
+        if (!password || !password.length) {
             throw new Error("Master password is missing");
         }
         const ciphertext = encrypt(password, password);
-        fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, ciphertext, { flag: 'wx' } );
+        fs.writeFileSync(MASTER_PASSWORD_FILE_PATH, ciphertext, {flag: 'wx'});
     }
 
     static checkMasterPassword(password) {
-        if(!password || !password.length) {
+        if (!password || !password.length) {
             return false;
         }
         const masterPassword = fs.readFileSync(MASTER_PASSWORD_FILE_PATH, 'utf-8');
@@ -63,6 +71,70 @@ class PasswordManager {
         }
     }
 
+    static updatePassword(id, newPassword, masterPassword) {
+        if (!newPassword || !newPassword.length) {
+            throw new Error('Invalid new password specified');
+        }
+        if (!this.hasMasterPassword()) {
+            return {
+                success: false,
+                event: EMPTY_MASTER_PASSWORD
+            };
+        }
+        if (!this.checkMasterPassword(masterPassword)) {
+            return {
+                success: false,
+                event: CHECKED_MASTER_PASSWORD,
+                eventValue: false
+            };
+        }
+
+        let encryptedPassword = encrypt(newPassword, masterPassword);
+        let data = fs.readFileSync(PASSWORDS_FILE_PATH, "utf-8").split('\n');
+        const requiredIndex = data.findIndex(item => {
+            const fields = item.split(',');
+            return fields[0] === id;
+        });
+
+        if (requiredIndex === -1) {
+            // @todo maybe show an error
+        } else {
+            const passwordItem = data[requiredIndex].split(',');
+            passwordItem[3] = encryptedPassword;
+            data[requiredIndex] = passwordItem.join(',');
+            fs.writeFileSync(PASSWORDS_FILE_PATH, data.join('\n'));
+        }
+    }
+
+    static deletePassword(id, masterPassword) {
+        if (!this.hasMasterPassword()) {
+            return {
+                success: false,
+                event: EMPTY_MASTER_PASSWORD
+            };
+        }
+        if (!this.checkMasterPassword(masterPassword)) {
+            return {
+                success: false,
+                event: CHECKED_MASTER_PASSWORD,
+                eventValue: false
+            };
+        }
+
+        const data = fs.readFileSync(PASSWORDS_FILE_PATH, "utf-8").split('\n');
+        const requiredIndex = data.findIndex(item => {
+            const fields = item.split(',');
+            return fields[0] === id;
+        });
+
+        if (requiredIndex === -1) {
+            // @todo maybe show an error
+        } else {
+            const updatedData = data.splice(requiredIndex, 1);
+            fs.writeFileSync(PASSWORDS_FILE_PATH, updatedData.join('\n'));
+        }
+    }
+
     static decryptPassword(item, masterPassword) {
         if (!this.checkMasterPassword(masterPassword)) {
             return {
@@ -98,7 +170,7 @@ class PasswordManager {
     }
 
     static insertData(newData) {
-        if(!fs.existsSync(PASSWORDS_FILE_PATH)) {
+        if (!fs.existsSync(PASSWORDS_FILE_PATH)) {
             fs.writeFileSync(PASSWORDS_FILE_PATH, fields);
         }
 

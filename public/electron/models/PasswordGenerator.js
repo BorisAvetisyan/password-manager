@@ -44,7 +44,7 @@ const generatePasswordBasedOnWords = (words) => {
     }
     let password = '';
     for (let i = 0; i < words.length; i++) {
-        let word = words[i];
+        let word = words[i].toLowerCase();
         let modifiedWord = '';
         for (let j = 0; j < word.length; j++) {
             const shouldModify = getRandomBoolean(60);
