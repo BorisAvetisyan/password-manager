@@ -13,7 +13,7 @@ function ListItem({ item, onListItemClick, isSelected, handleRemove }) {
                 { item.name }
             </span>
             <span className="remove-icon" onClick={handleRemove}>
-               ` <FontAwesomeIcon icon={faRemove} />`
+                <FontAwesomeIcon icon={faRemove} />
             </span>
         </li>
     )
