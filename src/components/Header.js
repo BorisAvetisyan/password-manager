@@ -1,4 +1,4 @@
-import {HomeIcon} from "../media/SVG";
+import {Logo} from "../media/SVG";
 import {useHistory} from "react-router";
 
 function Header() {
@@ -11,7 +11,7 @@ function Header() {
     return (
         <div className="header-container d-flex align-items-center">
             <div className="home">
-                <span className="home-icon" onClick={onHomeIconClick} >{ HomeIcon }</span>
+                <span className="home-icon" onClick={onHomeIconClick} >{ Logo }</span>
             </div>
             <div className="header-texts">
                 <span className="title-text">Your Secure P@s5w0rd</span>
