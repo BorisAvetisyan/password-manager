@@ -73,7 +73,7 @@ function PasswordInput({
                     value={value}
                     onChange={(e) => onChange(e) }
                     type="password" className="form-control" id="password"
-                    aria-describedby="password" placeholder={placeHolder || "Enter Website Password"} />
+                    aria-describedby="password" placeholder={placeHolder || "Enter Master Password"} />
                 <div className="input-group-append" style={{ width: "44px" }}>
                 <span className="input-group-text cursor-pointer" id="password" onClick={onShowClick}>
                     {

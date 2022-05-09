@@ -86,14 +86,16 @@ body {
       height: 56px;
       cursor: pointer;
       align-items: center;
-      display: flex;
       padding-left: 8px;
+      display: list-item;
+      padding-top: 9px;
       .website-name {
         margin-left: 12px;
       }
       .remove-icon {
-        position: absolute;
-        right: 20px;
+        margin-right: 20px;
+        margin-top: 6px;
+        float: right;
       }
     }
     .li-namespace {
