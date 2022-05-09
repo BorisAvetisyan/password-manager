@@ -5,6 +5,7 @@ import {
     DELETE_PASSWORD_ITEM,
     EMPTY_MASTER_PASSWORD, PASSWORD_DELETED
 } from "../../utils/constants";
+import PasswordInput from "../common/PasswordInput";
 
 const electron = window.require('electron');
 
@@ -45,8 +46,8 @@ function RemoveModal({ handleClose, id }) {
 
             <Modal.Body>
                 {error && <p className="invalid-text">{error}</p>}
-
-                <input className="form-control" placeholder="Password..." type="password" value={masterPassword} onChange={(e) => setMasterPassword(e.target.value)} />
+                <PasswordInput label={false} defaultValue={masterPassword} showStrengthBlock={false}
+                    handleChange={(e) => setMasterPassword(e.target.value)} />
             </Modal.Body>
 
             <Modal.Footer>
