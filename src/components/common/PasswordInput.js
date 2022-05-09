@@ -10,6 +10,8 @@ function PasswordInput({
                            label = true,
                            error = '',
                            onlyScore=false,
+                           showStrengthBlock = true,
+                           allInfo = false
                        }) {
 
     const [score, setScore] = useState(0);
@@ -27,7 +29,7 @@ function PasswordInput({
         const passwordInfo = zxcvbn(value, [])
         setScore(passwordInfo.score);
         setValue(e.target.value);
-        handleChange(e, passwordInfo.score);
+        handleChange(e, allInfo ? passwordInfo : passwordInfo.score);
     }
 
     const onShowClick = () => {
@@ -80,7 +82,7 @@ function PasswordInput({
                 </span>
                 </div>
             </div>
-            { strengthBlock() }
+            { showStrengthBlock && strengthBlock() }
         </div> : strengthBlock()
     )
 }

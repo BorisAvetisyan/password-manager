@@ -75,7 +75,6 @@ ipcMain.on(CHECK_MASTER_PASSWORD, (event, data) => {
 
 ipcMain.on(PASSWORD_DECRYPT, (event, data) => {
     const result = PasswordManager.decryptPassword(data.item, data.masterPassword);
-    console.log("result, ", result);
     mainWindow.webContents.send(result.event, result.eventValue);
 })
 
@@ -103,5 +102,6 @@ ipcMain.on(UPDATE_PASSWORD_ITEM, (event, payload) => {
 
 function emitPasswordsData() {
     const passwords = PasswordManager.getSavedPasswords();
-    mainWindow.webContents.send(PASSWORDS_DATA, passwords);
+    const payload = { passwords, hasMasterPassword: PasswordManager.hasMasterPassword() };
+    mainWindow.webContents.send(PASSWORDS_DATA, payload);
 }

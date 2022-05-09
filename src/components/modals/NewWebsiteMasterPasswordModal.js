@@ -7,6 +7,7 @@ import {
 } from "../../utils/constants";
 import PasswordInput from "../common/PasswordInput";
 import zxcvbn from "zxcvbn";
+import {useSelector} from "react-redux";
 
 const electron = window.require('electron');
 
@@ -14,6 +15,7 @@ function NewWebsiteMasterPasswordModal({handleClose, formData}) {
     const [error, setError] = useState('');
     const [masterPassword, setMasterPassword] = useState('');
     const [invalidPasswordWarning, setInvalidPasswordWarning] = useState('');
+    const { hasMasterPassword } = useSelector(state => state.app)
 
     useEffect(() => {
         electron.ipcRenderer
@@ -81,7 +83,10 @@ function NewWebsiteMasterPasswordModal({handleClose, formData}) {
 
             <Modal.Body>
                 {error && <p className="invalid-text">{error}</p>}
-                <PasswordInput error={invalidPasswordWarning} label={false} defaultValue={masterPassword}
+                <PasswordInput showStrengthBlock={!hasMasterPassword}
+                               error={invalidPasswordWarning}
+                               label={false}
+                               defaultValue={masterPassword}
                                handleChange={handlePasswordInputChange}/>
             </Modal.Body>
 

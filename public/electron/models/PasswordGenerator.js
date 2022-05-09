@@ -103,7 +103,6 @@ const getCountDistributions = (length, includeSymbols, includeDigits, includeLow
 }
 
 const getRandomElementFromArray = (array) => {
-    console.log("crypto is, ", crypto);
     return array[crypto.randomInt(0, array.length)];
 }
 

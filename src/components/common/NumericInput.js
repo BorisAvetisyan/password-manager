@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useState} from "react";
-import { ArrowDownIcon, ArrowUpIcon } from "../../media/SVG";
+import {ArrowDownIcon, ArrowUpIcon} from "../../media/SVG";
 
-function NumericInput({ handleChange, defaultValue = 0, min= 0}) {
+function NumericInput({handleChange, defaultValue = 0, min = 0, max = 40}) {
 
     const [value, setValue] = useState(defaultValue)
 
@@ -10,8 +10,13 @@ function NumericInput({ handleChange, defaultValue = 0, min= 0}) {
     }, [defaultValue])
 
     const onChange = (e) => {
-      setValue(e.target.value);
-      handleChange && handleChange(e.target.value)
+        if (e.target.value.length && parseInt(e.target.value) > max) {
+            setValue(max);
+            handleChange && handleChange(max);
+            return;
+        }
+        setValue(e.target.value);
+        handleChange && handleChange(e.target.value)
     }
 
     const onArrowClick = (value) => {
@@ -19,14 +24,19 @@ function NumericInput({ handleChange, defaultValue = 0, min= 0}) {
         handleChange && handleChange(value)
     }
 
-    return(
+    return (
         <div className="numeric-input-block">
-            <input type="number" min={0} className="custom-numeric-input text-center" value={value} onChange={(e) => onChange(e)} />
-            <div className="input-arrow-up text-center cursor-pointer" onClick={() => onArrowClick(value + 1) }>
-                { ArrowUpIcon }
+            <input type="number" min={0}
+                   className="custom-numeric-input text-center"
+                   value={value}
+                   onChange={(e) => onChange(e)}
+            />
+            <div className="input-arrow-up text-center cursor-pointer" onClick={() => onArrowClick(value + 1)}>
+                {ArrowUpIcon}
             </div>
-            <div className="input-arrow-down text-center cursor-pointer" onClick={() => onArrowClick(value - 1 >= min ? value - 1 : min) }>
-                { ArrowDownIcon }
+            <div className="input-arrow-down text-center cursor-pointer"
+                 onClick={() => onArrowClick(value - 1 >= min ? value - 1 : min)}>
+                {ArrowDownIcon}
             </div>
         </div>
     )

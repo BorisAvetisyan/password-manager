@@ -10,7 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRemove} from "@fortawesome/free-solid-svg-icons";
 
 const electron = window.require('electron');
-const inputAlphabet = ['0','1','2','3','4','5','6','7','8','9',"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+const inputAlphabet = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
 function GivenWordsPasswordGenerator() {
     const [error, setError] = useState('')
@@ -27,7 +27,7 @@ function GivenWordsPasswordGenerator() {
 
     const generate = () => {
         setError('');
-        if(!wordsBadges.length || wordsBadges.length < 2) {
+        if (!wordsBadges.length || wordsBadges.length < 2) {
             setError("At least two words must be provided")
             return;
         }
@@ -35,9 +35,9 @@ function GivenWordsPasswordGenerator() {
     }
 
     const handleWordsInputChange = (e) => {
-        const { value } = e.target;
+        const {value} = e.target;
         const lastCharacter = value.charAt(e.target.value.length - 1);
-        if(inputAlphabet.indexOf(lastCharacter) === -1) {
+        if (inputAlphabet.indexOf(lastCharacter) === -1) {
             const currentWord = value.slice(0, value.length - 1);
             setForm({...form, currentWord: currentWord});
             return;
@@ -56,26 +56,30 @@ function GivenWordsPasswordGenerator() {
         })
         setGeneratedPassword('')
     }
-    
+
     const onAddPasswordManagerClick = () => {
         history.push({
             pathname: ROUTES.NEW_WEBSITE,
-            state: { generatedPassword }
+            state: {generatedPassword}
         })
     }
 
     const onInputKeyDown = (e) => {
-        if(e.key === 'Enter' && e.target.value) {
+        if (e.key === 'Enter' && e.target.value) {
             setWordsBadges([...wordsBadges, form.currentWord]);
             setForm({...form, currentWord: ''})
         }
     }
 
     const removeBadge = (index) => {
-      setWordsBadges(wordsBadges.filter((item, i) => i !== index))
+        setWordsBadges(wordsBadges.filter((item, i) => i !== index));
+        setForm({
+            currentWord: '',
+        })
+        setGeneratedPassword('')
     }
 
-    return(<>
+    return (<>
             <div className="right-generator">
                 <div className="length-block-container mt-5">
                     <p style={{color: "#727272", fontSize: "14px"}} className="text-center">
@@ -85,24 +89,27 @@ function GivenWordsPasswordGenerator() {
                 </div>
 
                 <div>
-                    { wordsBadges.map((word, index) => (
+                    {wordsBadges.map((word, index) => (
                         <Badge bg="secondary" className="cursor-pointer mr-2">{word}
 
                             <span className="ml-5" onClick={() => removeBadge(index)}>
-                                <FontAwesomeIcon icon={faRemove} />
+                                <FontAwesomeIcon icon={faRemove}/>
                             </span>
                         </Badge>
-                    )) }
+                    ))}
                 </div>
 
                 <div className="input-block mt-3">
-                    <input onKeyDown={onInputKeyDown} value={form.currentWord} type="text" className="form-control" placeholder="Enter here..."
-                           onChange={handleWordsInputChange} />
-                    { error && <p className="invalid-text">{error}</p> }
+                    <input onKeyDown={onInputKeyDown} value={form.currentWord} type="text" className="form-control"
+                           placeholder="Enter here..."
+                           onChange={handleWordsInputChange}/>
+                    {error && <p className="invalid-text">{error}</p>}
                 </div>
 
                 <div className="generate-block mt-3">
-                    <button disabled={wordsBadges.length < 2} className="btn btn-default btn-black w-100" onClick={generate}>Generate</button>
+                    <button disabled={wordsBadges.length < 2} className="btn btn-default btn-black w-100"
+                            onClick={generate}>Generate
+                    </button>
                 </div>
 
                 <div className="text-center mt-3">
@@ -118,7 +125,8 @@ function GivenWordsPasswordGenerator() {
                             Copy
                         </span>
                     </button>
-                    <button className="btn btn-black f-11" disabled={!generatedPassword.length} onClick={onAddPasswordManagerClick}>
+                    <button className="btn btn-black f-11" disabled={!generatedPassword.length}
+                            onClick={onAddPasswordManagerClick}>
                         <span className="action-text">
                             Add to Password Manager
                         </span>

@@ -15,18 +15,22 @@ function PasswordChecker() {
         4: Strong
     }
     const [imagePath, setImage] = useState(null);
+    const [passwordInfoMessage, setPasswordInfoMessage] = useState('');
 
-    const handlePasswordInputChange = (e, score) => {
+    const handlePasswordInputChange = (e, passwordInfo) => {
         if (!e.target.value.length) {
             setImage(null);
+            setPasswordInfoMessage('');
             return;
         }
-        setImage(Images[score]);
+        setPasswordInfoMessage("Hey! Your password can be hacked in " + passwordInfo.crack_times_display.offline_slow_hashing_1e4_per_second)
+        setImage(Images[passwordInfo.score]);
     }
 
     return (
         <div className="analyzer-container">
-            <PasswordInput handleChange={handlePasswordInputChange} placeHolder={"Analyze your password"}/>
+            <PasswordInput allInfo={true} handleChange={handlePasswordInputChange} placeHolder={"Analyze your password"}/>
+            <p className="">{passwordInfoMessage}</p>
             <div className="text-center">
                 {imagePath && <img src={imagePath} style={{ width: "600px" }} />}
             </div>
