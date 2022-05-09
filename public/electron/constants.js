@@ -1,3 +1,5 @@
+const package = require('../../package.json')
+
 const PASSWORDS_DATA = 'PASSWORDS_DATA'
 const NEW_WEBSITE = 'NEW_WEBSITE';
 
@@ -22,13 +24,13 @@ const UPDATE_PASSWORD_ITEM = 'UPDATE_PASSWORD_ITEM';
 const getAppDataPath = () => {
     switch (process.platform) {
         case "darwin": {
-            return path.join(process.env.HOME, "Library", "Application Support", "yourpasswordmanager");
+            return path.join(process.env.HOME, "Library", "Application Support", package.productName);
         }
         case "win32": {
-            return path.join(process.env.APPDATA, "yourpasswordmanager");
+            return path.join(process.env.APPDATA, package.productName);
         }
         case "linux": {
-            return path.join(process.env.HOME, ".yourpasswordmanager");
+            return path.join(process.env.HOME, "." + package.productName);
         }
         default: {
             console.log("Unsupported platform!");
@@ -38,7 +40,6 @@ const getAppDataPath = () => {
 }
 
 const path = require('path');
-
 const PASSWORDS_FILE_PATH = path.join(getAppDataPath(), 'passwords.csv');
 const MASTER_PASSWORD_FILE_PATH = path.join(getAppDataPath(), 'master.txt');
 
