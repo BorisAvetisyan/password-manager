@@ -122,23 +122,16 @@ class PasswordManager {
         }
 
         const data = fs.readFileSync(PASSWORDS_FILE_PATH, "utf-8").split('\n');
-        const requiredIndex = data.findIndex(item => {
+        const updatedData = data.filter(item => {
             const fields = item.split(',');
-            return fields[0] === id;
+            return fields[0] !== id;
         });
-
-        if (requiredIndex === -1) {
-            // @todo maybe show an error
-        } else {
-            const updatedData = data.splice(requiredIndex, 1);
-            updatedData.unshift(fields);
-            fs.writeFileSync(PASSWORDS_FILE_PATH, updatedData.join('\n'));
-            return {
-                success: true,
-                event: PASSWORD_DELETED,
-                eventValue: false
-            };
-        }
+        fs.writeFileSync(PASSWORDS_FILE_PATH, updatedData.join('\n'));
+        return {
+            success: true,
+            event: PASSWORD_DELETED,
+            eventValue: false
+        };
     }
 
     static decryptPassword(item, masterPassword) {
